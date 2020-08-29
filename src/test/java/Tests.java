@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.InputStreamReader;
 import java.util.List;
 
 public class Tests {
@@ -14,7 +13,7 @@ public class Tests {
     void getLocalFile() throws Exception{
         File file = new File(getClass().getClassLoader().getResource("ebird.json").getFile());
 
-        List<Model> models = objectMapper.readValue(file, new TypeReference<List<Model>>(){});
+        List<EbirdModel> models = objectMapper.readValue(file, new TypeReference<List<EbirdModel>>(){});
         System.out.println(models.size());
         System.out.println(models.get(0));
     }

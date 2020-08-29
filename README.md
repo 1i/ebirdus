@@ -14,11 +14,12 @@ Invoke the Lambda.
 The LogResult is returned in Base64 so will need to be decoded.
 
 
-## Lambda
+## Ebird.org
 ```
 curl -v --location --request GET 'https://api.ebird.org/v2/data/obs/IE/recent' \
 --header '_X-eBirdApiToken: d4adr470eh9u_'  
 ```
+Docs [https://documenter.getpostman.com/view/664302/S1ENwy59?version=latest#intro]
 
 ### DynamoDB
 
