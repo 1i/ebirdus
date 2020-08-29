@@ -1,0 +1,3124 @@
+{
+	"info": {
+		"_postman_id": "cdea14fd-7467-4325-9ca3-dc1244ce1f49",
+		"name": "eBird API 2.0",
+		"description": "Welcome to the new eBird API Documentation!\n\nThe 2.0 APIs are a replacement for <a href=\"https://confluence.cornell.edu/display/CLOISAPI/eBird+API+1.1\">1.1 APIs</a>, which are now retired.\n\nAll of these APIs (with a few exceptions) will require a key, which is tied to your eBird account. Please <a href=\"https://ebird.org/api/keygen\">sign up</a> for a key on the eBird website.\n\nThe default response format is JSON unless otherwise noted.\n\nThe key should be included in a request header called \"x-ebirdapitoken\". Alternatively, it can be included as a request parameter named 'key'.\n\nNOTE: Any response field with 'ID' in all caps such as 'locID' or 'subID' should be considered deprecated and may be removed in the future. Please let us know if such a response exists where no alternative with lowecase 'Id' is available.\n\n<a href=\"https://www.birds.cornell.edu/home/terms-of-use/\">Terms of Use</a>\n\n\n<b>Changelog</b>\n\nv2.07 2020-02-06\n<ul>\n<li>Max distance, if specified, for 'Nearest observations of a species', is now 50km</li/>\n</ul>\n\nv2.06 2020-01-29\n<ul>\n<li>latestObsDt and numSpeciesAllTime are now always included in ref/hotspot results regardless of presence of 'back' parameter</li>\n<li>Removed default distance filter for 'Nearest observations of a species', as indicated in docs.</li>\n</ul>\n\nv 2.04 2020-01-21\n<ul>\n<li> subId is now included in the 'simple' detail of all 'data/obs' endpoints</li>\n</ul>\n\nv 2.03\n<ul>\n<li> 'dist' parameter now accepts double precision</li>\n</ul>",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "data/obs",
+			"item": [
+				{
+					"name": "Recent observations in a region",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9131c60-3fba-48d1-96b5-fe67b60627da",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"{{regionCode}}",
+								"recent"
+							]
+						},
+						"description": "Get the list of recent observations (up to 30 days ago) of birds seen\r\nin a country, state, county, or location.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| cat | any available [category](https://ebird.org/science/the-ebird-taxonomy) | (all) | Only fetch observations from these taxonomic categories. |\r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| r  | any location code | (none) | Fetch observations from up to 10 locations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |"
+					},
+					"response": [
+						{
+							"name": "Simple Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}",
+										"description": "Your API Key"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/KZ/recent",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"KZ",
+										"recent"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 21 Jan 2020 17:43:47 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"speciesCode\": \"hoocro1\",\n        \"comName\": \"Hooded Crow\",\n        \"sciName\": \"Corvus cornix\",\n        \"locId\": \"L7884500\",\n        \"locName\": \"улица Старикова, Chundzha KZ-Almaty (43.5309,79.4551)\",\n        \"obsDt\": \"2020-01-21 16:35\",\n        \"howMany\": 1,\n        \"lat\": 43.530936,\n        \"lng\": 79.455132,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63619695\"\n    },\n    {\n        \"speciesCode\": \"bohwax\",\n        \"comName\": \"Bohemian Waxwing\",\n        \"sciName\": \"Bombycilla garrulus\",\n        \"locId\": \"L7884500\",\n        \"locName\": \"улица Старикова, Chundzha KZ-Almaty (43.5309,79.4551)\",\n        \"obsDt\": \"2020-01-21 16:35\",\n        \"howMany\": 16,\n        \"lat\": 43.530936,\n        \"lng\": 79.455132,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63619695\"\n    },\n    {\n        \"speciesCode\": \"eutspa\",\n        \"comName\": \"Eurasian Tree Sparrow\",\n        \"sciName\": \"Passer montanus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-21 09:03\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63615092\"\n    },\n    {\n        \"speciesCode\": \"houspa\",\n        \"comName\": \"House Sparrow\",\n        \"sciName\": \"Passer domesticus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-21 09:03\",\n        \"howMany\": 2,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63615092\"\n    },\n    {\n        \"speciesCode\": \"gretit1\",\n        \"comName\": \"Great Tit\",\n        \"sciName\": \"Parus major\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 16,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"eurmag1\",\n        \"comName\": \"Eurasian Magpie\",\n        \"sciName\": \"Pica pica\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 4,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"carcro1\",\n        \"comName\": \"Carrion Crow\",\n        \"sciName\": \"Corvus corone\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 3,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"azutit2\",\n        \"comName\": \"Azure Tit\",\n        \"sciName\": \"Cyanistes cyanus\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 4,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"eurbla\",\n        \"comName\": \"Eurasian Blackbird\",\n        \"sciName\": \"Turdus merula\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 2,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"eurgol\",\n        \"comName\": \"European Goldfinch\",\n        \"sciName\": \"Carduelis carduelis\",\n        \"locId\": \"L9840246\",\n        \"locName\": \"Shybynsay\",\n        \"obsDt\": \"2020-01-21 09:00\",\n        \"howMany\": 20,\n        \"lat\": 43.198302,\n        \"lng\": 77.040023,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617298\"\n    },\n    {\n        \"speciesCode\": \"comcha\",\n        \"comName\": \"Common Chaffinch\",\n        \"sciName\": \"Fringilla coelebs\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-20 18:11\",\n        \"howMany\": 2,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63582245\"\n    },\n    {\n        \"speciesCode\": \"datthr1\",\n        \"comName\": \"Black-throated Thrush\",\n        \"sciName\": \"Turdus atrogularis\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-20 18:11\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63582245\"\n    },\n    {\n        \"speciesCode\": \"rocpig\",\n        \"comName\": \"Rock Pigeon\",\n        \"sciName\": \"Columba livia\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-20 13:03\",\n        \"howMany\": 40,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63579583\"\n    },\n    {\n        \"speciesCode\": \"commyn\",\n        \"comName\": \"Common Myna\",\n        \"sciName\": \"Acridotheres tristis\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-20 13:03\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63579583\"\n    },\n    {\n        \"speciesCode\": \"turdus1\",\n        \"comName\": \"Turdus sp.\",\n        \"sciName\": \"Turdus sp.\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-19 16:45\",\n        \"howMany\": 7,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63543146\"\n    },\n    {\n        \"speciesCode\": \"brambl\",\n        \"comName\": \"Brambling\",\n        \"sciName\": \"Fringilla montifringilla\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-19 16:45\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63543146\"\n    },\n    {\n        \"speciesCode\": \"whoswa\",\n        \"comName\": \"Whooper Swan\",\n        \"sciName\": \"Cygnus cygnus\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-19 10:07\",\n        \"howMany\": 2,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63537519\"\n    },\n    {\n        \"speciesCode\": \"mutswa\",\n        \"comName\": \"Mute Swan\",\n        \"sciName\": \"Cygnus olor\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-19 10:07\",\n        \"howMany\": 4,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63537519\"\n    },\n    {\n        \"speciesCode\": \"skylar\",\n        \"comName\": \"Eurasian Skylark\",\n        \"sciName\": \"Alauda arvensis\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-19 10:07\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63537519\"\n    },\n    {\n        \"speciesCode\": \"lotros1\",\n        \"comName\": \"Long-tailed Rosefinch\",\n        \"sciName\": \"Carpodacus sibiricus\",\n        \"locId\": \"L2384349\",\n        \"locName\": \"Tengiz--West Evaporation Ponds (restricted access)\",\n        \"obsDt\": \"2020-01-19 09:27\",\n        \"howMany\": 13,\n        \"lat\": 46.315,\n        \"lng\": 53.4208333,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63536762\"\n    },\n    {\n        \"speciesCode\": \"bearee1\",\n        \"comName\": \"Bearded Reedling\",\n        \"sciName\": \"Panurus biarmicus\",\n        \"locId\": \"L2384349\",\n        \"locName\": \"Tengiz--West Evaporation Ponds (restricted access)\",\n        \"obsDt\": \"2020-01-19 09:27\",\n        \"howMany\": 5,\n        \"lat\": 46.315,\n        \"lng\": 53.4208333,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63536762\"\n    },\n    {\n        \"speciesCode\": \"euptit1\",\n        \"comName\": \"Eurasian Penduline-Tit\",\n        \"sciName\": \"Remiz pendulinus\",\n        \"locId\": \"L2384349\",\n        \"locName\": \"Tengiz--West Evaporation Ponds (restricted access)\",\n        \"obsDt\": \"2020-01-19 09:27\",\n        \"howMany\": 1,\n        \"lat\": 46.315,\n        \"lng\": 53.4208333,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63536762\"\n    },\n    {\n        \"speciesCode\": \"norhar1\",\n        \"comName\": \"Hen Harrier\",\n        \"sciName\": \"Circus cyaneus\",\n        \"locId\": \"L2384349\",\n        \"locName\": \"Tengiz--West Evaporation Ponds (restricted access)\",\n        \"obsDt\": \"2020-01-19 09:27\",\n        \"howMany\": 1,\n        \"lat\": 46.315,\n        \"lng\": 53.4208333,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63536762\"\n    },\n    {\n        \"speciesCode\": \"fieldf\",\n        \"comName\": \"Fieldfare\",\n        \"sciName\": \"Turdus pilaris\",\n        \"locId\": \"L9878093\",\n        \"locName\": \"Frog Pond\",\n        \"obsDt\": \"2020-01-18 15:00\",\n        \"howMany\": 3,\n        \"lat\": 43.526353,\n        \"lng\": 79.439873,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63501868\"\n    },\n    {\n        \"speciesCode\": \"mallar3\",\n        \"comName\": \"Mallard\",\n        \"sciName\": \"Anas platyrhynchos\",\n        \"locId\": \"L9878093\",\n        \"locName\": \"Frog Pond\",\n        \"obsDt\": \"2020-01-18 15:00\",\n        \"howMany\": 2,\n        \"lat\": 43.526353,\n        \"lng\": 79.439873,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63501868\"\n    },\n    {\n        \"speciesCode\": \"rinphe\",\n        \"comName\": \"Ring-necked Pheasant\",\n        \"sciName\": \"Phasianus colchicus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-18 10:10\",\n        \"howMany\": 7,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63499659\"\n    },\n    {\n        \"speciesCode\": \"rook1\",\n        \"comName\": \"Rook\",\n        \"sciName\": \"Corvus frugilegus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-18 10:10\",\n        \"howMany\": 12,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63499659\"\n    },\n    {\n        \"speciesCode\": \"eurgre1\",\n        \"comName\": \"European Greenfinch\",\n        \"sciName\": \"Chloris chloris\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-18 10:10\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63499659\"\n    },\n    {\n        \"speciesCode\": \"eucdov\",\n        \"comName\": \"Eurasian Collared-Dove\",\n        \"sciName\": \"Streptopelia decaocto\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-18 10:10\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63499659\"\n    },\n    {\n        \"speciesCode\": \"eurjac\",\n        \"comName\": \"Eurasian Jackdaw\",\n        \"sciName\": \"Corvus monedula\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-18 10:10\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63499659\"\n    },\n    {\n        \"speciesCode\": \"eurkes\",\n        \"comName\": \"Eurasian Kestrel\",\n        \"sciName\": \"Falco tinnunculus\",\n        \"locId\": \"L10506840\",\n        \"locName\": \"Unnamed Road, Кызылшарык, Almatı oblısı, KZ (43.528, 78.292)\",\n        \"obsDt\": \"2020-01-18 09:57\",\n        \"howMany\": 1,\n        \"lat\": 43.5275029,\n        \"lng\": 78.2918487,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63499205\"\n    },\n    {\n        \"speciesCode\": \"eurspa1\",\n        \"comName\": \"Eurasian Sparrowhawk\",\n        \"sciName\": \"Accipiter nisus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-17 18:14\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63469899\"\n    },\n    {\n        \"speciesCode\": \"crelar2\",\n        \"comName\": \"Crested Lark\",\n        \"sciName\": \"Galerida cristata\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-17 18:14\",\n        \"howMany\": 2,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63469899\"\n    },\n    {\n        \"speciesCode\": \"eurrob1\",\n        \"comName\": \"European Robin\",\n        \"sciName\": \"Erithacus rubecula\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-17 14:26\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": true,\n        \"locationPrivate\": false,\n        \"subId\": \"S63468052\"\n    },\n    {\n        \"speciesCode\": \"norgos\",\n        \"comName\": \"Northern Goshawk\",\n        \"sciName\": \"Accipiter gentilis\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-12 14:46\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63302867\"\n    },\n    {\n        \"speciesCode\": \"hawfin\",\n        \"comName\": \"Hawfinch\",\n        \"sciName\": \"Coccothraustes coccothraustes\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-12 14:46\",\n        \"howMany\": 1,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": false,\n        \"subId\": \"S63302867\"\n    },\n    {\n        \"speciesCode\": \"misthr1\",\n        \"comName\": \"Mistle Thrush\",\n        \"sciName\": \"Turdus viscivorus\",\n        \"locId\": \"L10233102\",\n        \"locName\": \"Ahmet Yesevi University\",\n        \"obsDt\": \"2020-01-12 14:46\",\n        \"howMany\": 10,\n        \"lat\": 43.2995121,\n        \"lng\": 68.3065226,\n        \"obsValid\": true,\n        \"obsReviewed\": true,\n        \"locationPrivate\": false,\n        \"subId\": \"S63302867\"\n    },\n    {\n        \"speciesCode\": \"eurlin1\",\n        \"comName\": \"Eurasian Linnet\",\n        \"sciName\": \"Linaria cannabina\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"lottit1\",\n        \"comName\": \"Long-tailed Tit\",\n        \"sciName\": \"Aegithalos caudatus\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"mewgul\",\n        \"comName\": \"Mew Gull\",\n        \"sciName\": \"Larus canus\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"reebun\",\n        \"comName\": \"Reed Bunting\",\n        \"sciName\": \"Emberiza schoeniclus\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 10,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": true,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"compoc\",\n        \"comName\": \"Common Pochard\",\n        \"sciName\": \"Aythya ferina\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"whiwag\",\n        \"comName\": \"White Wagtail\",\n        \"sciName\": \"Motacilla alba\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": true,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"blutit\",\n        \"comName\": \"Eurasian Blue Tit\",\n        \"sciName\": \"Cyanistes caeruleus\",\n        \"locId\": \"L10327610\",\n        \"locName\": \"Evaporation ponds (TCO sewage treatment facility ), South Tengiz\",\n        \"obsDt\": \"2020-01-12 09:42\",\n        \"howMany\": 1,\n        \"lat\": 46.272928,\n        \"lng\": 53.3983947,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63300178\"\n    },\n    {\n        \"speciesCode\": \"rubred2\",\n        \"comName\": \"Rufous-backed Redstart\",\n        \"sciName\": \"Phoenicurus erythronotus\",\n        \"locId\": \"L10469106\",\n        \"locName\": \"KZ-Almaty-Chundzha (43.5288,79.4623)\",\n        \"obsDt\": \"2020-01-11 16:00\",\n        \"howMany\": 1,\n        \"lat\": 43.528777,\n        \"lng\": 79.462334,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63260593\"\n    },\n    {\n        \"speciesCode\": \"litgre1\",\n        \"comName\": \"Little Grebe\",\n        \"sciName\": \"Tachybaptus ruficollis\",\n        \"locId\": \"L8433050\",\n        \"locName\": \"Starikova Pond\",\n        \"obsDt\": \"2020-01-10 14:30\",\n        \"howMany\": 1,\n        \"lat\": 43.5303491,\n        \"lng\": 79.4624284,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63347368\"\n    },\n    {\n        \"speciesCode\": \"whwwoo1\",\n        \"comName\": \"White-winged Woodpecker\",\n        \"sciName\": \"Dendrocopos leucopterus\",\n        \"locId\": \"L10526663\",\n        \"locName\": \"Akdala\",\n        \"obsDt\": \"2020-01-09 10:38\",\n        \"howMany\": 1,\n        \"lat\": 44.5396194,\n        \"lng\": 76.6254182,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63617087\"\n    },\n    {\n        \"speciesCode\": \"grypar\",\n        \"comName\": \"Gray Partridge\",\n        \"sciName\": \"Perdix perdix\",\n        \"locId\": \"L10526618\",\n        \"locName\": \"Kurty\",\n        \"obsDt\": \"2020-01-08 17:11\",\n        \"howMany\": 2,\n        \"lat\": 44.262725,\n        \"lng\": 76.6617496,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616832\"\n    },\n    {\n        \"speciesCode\": \"eurnut1\",\n        \"comName\": \"Eurasian Nutcracker\",\n        \"sciName\": \"Nucifraga caryocatactes\",\n        \"locId\": \"L7884500\",\n        \"locName\": \"улица Старикова, Chundzha KZ-Almaty (43.5309,79.4551)\",\n        \"obsDt\": \"2020-01-08 14:30\",\n        \"howMany\": 1,\n        \"lat\": 43.530936,\n        \"lng\": 79.455132,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63158588\"\n    },\n    {\n        \"speciesCode\": \"y00764\",\n        \"comName\": \"House/Eurasian Tree Sparrow\",\n        \"sciName\": \"Passer domesticus/montanus\",\n        \"locId\": \"L7884500\",\n        \"locName\": \"улица Старикова, Chundzha KZ-Almaty (43.5309,79.4551)\",\n        \"obsDt\": \"2020-01-08 14:30\",\n        \"howMany\": 15,\n        \"lat\": 43.530936,\n        \"lng\": 79.455132,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63158588\"\n    },\n    {\n        \"speciesCode\": \"chukar\",\n        \"comName\": \"Chukar\",\n        \"sciName\": \"Alectoris chukar\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 8,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    },\n    {\n        \"speciesCode\": \"comred\",\n        \"comName\": \"Common Redpoll\",\n        \"sciName\": \"Acanthis flammea\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 20,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    },\n    {\n        \"speciesCode\": \"merlin\",\n        \"comName\": \"Merlin\",\n        \"sciName\": \"Falco columbarius\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 1,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    },\n    {\n        \"speciesCode\": \"corbun1\",\n        \"comName\": \"Corn Bunting\",\n        \"sciName\": \"Emberiza calandra\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 6,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    },\n    {\n        \"speciesCode\": \"horlar\",\n        \"comName\": \"Horned Lark\",\n        \"sciName\": \"Eremophila alpestris\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 20,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    },\n    {\n        \"speciesCode\": \"whteag\",\n        \"comName\": \"White-tailed Eagle\",\n        \"sciName\": \"Haliaeetus albicilla\",\n        \"locId\": \"L10526629\",\n        \"locName\": \"Ili\",\n        \"obsDt\": \"2020-01-08 14:00\",\n        \"howMany\": 1,\n        \"lat\": 44.3978758,\n        \"lng\": 76.655232,\n        \"obsValid\": true,\n        \"obsReviewed\": false,\n        \"locationPrivate\": true,\n        \"subId\": \"S63616972\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Recent notable observations in a region",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent/notable",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"{{regionCode}}",
+								"recent",
+								"notable"
+							]
+						},
+						"description": "Get the list of recent, notable observations (up to 30 days ago) of birds seen\r\nin a country, region or location.\r\n\r\nNotable observations can be for locally or nationally rare species or \r\nare otherwise unusual, e.g. over-wintering birds in a species which is \r\nnormally only a summer visitor.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| detail | simple, full  | simple | Include a subset (simple), or all (full), of the fields available. |\r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| r  | any location code | (none) | Fetch observations from up to 10 locations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |"
+					},
+					"response": [
+						{
+							"name": "Full Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent/notable?detail=full",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"{{regionCode}}",
+										"recent",
+										"notable"
+									],
+									"query": [
+										{
+											"key": "detail",
+											"value": "full"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "37443",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 23 Aug 2017 18:38:55 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodo02.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"speciesCode\":\"libher\",\"comName\":\"Little Blue Heron\",\"sciName\":\"Egretta caerulea\",\"locId\":\"L295658\",\"locName\":\"Wallkill River NWR--Liberty Marsh (NY)\",\"obsDt\":\"2017-08-23 10:11\",\"howMany\":1,\"lat\":41.2833266,\"lng\":-74.5262526,\"obsValid\":false,\"obsReviewed\":false,\"locationPrivate\":false,\"subnational2Code\":\"US-NY-071\",\"subnational2Name\":\"Orange\",\"subnational1Code\":\"US-NY\",\"subnational1Name\":\"New York\",\"countryCode\":\"US\",\"countryName\":\"United States\",\"userDisplayName\":\"Kathleen Ashman\",\"subId\":\"S38783126\",\"obsId\":\"OBS527233428\",\"checklistId\":\"CL22364\",\"presenceNoted\":false,\"hasComments\":false,\"firstName\":\"Kathleen\",\"lastName\":\"Astahman\",\"hasRichMedia\":false,\"locID\":\"L295658\"},{\"speciesCode\":\"larspa\",\"comName\":\"Lark Sparrow\",\"sciName\":\"Chondestes grammacus\",\"locId\":\"L109147\",\"locName\":\"Jones Beach SP--West End\",\"obsDt\":\"2017-08-23 10:00\",\"howMany\":1,\"lat\":40.5786111,\"lng\":-73.5727778,\"obsValid\":true,\"obsReviewed\":true,\"locationPrivate\":false,\"subnational2Code\":\"US-NY-059\",\"subnational2Name\":\"Nassau\",\"subnational1Code\":\"US-NY\",\"subnational1Name\":\"New York\",\"countryCode\":\"US\",\"countryName\":\"United States\",\"userDisplayName\":\"Stacy Meyerheinrich\",\"subId\":\"S38780649\",\"obsId\":\"OBS527201666\",\"checklistId\":\"CL22361\",\"presenceNoted\":false,\"hasComments\":false,\"firstName\":\"Stacy\",\"lastName\":\"Moyerhainrich\",\"hasRichMedia\":false,\"locID\":\"L109147\"},{\"speciesCode\":\"libher\",\"comName\":\"Little Blue Heron\",\"sciName\":\"Egretta caerulea\",\"locId\":\"L295658\",\"locName\":\"Wallkill River NWR--Liberty Marsh (NY)\",\"obsDt\":\"2017-08-23 09:00\",\"howMany\":1,\"lat\":41.2833266,\"lng\":-74.5262526,\"obsValid\":false,\"obsReviewed\":false,\"locationPrivate\":false,\"subnational2Code\":\"US-NY-071\",\"subnational2Name\":\"Orange\",\"subnational1Code\":\"US-NY\",\"subnational1Name\":\"New York\",\"countryCode\":\"US\",\"countryName\":\"United States\",\"userDisplayName\":\"clay spencer\",\"subId\":\"S38779435\",\"obsId\":\"OBS527186633\",\"checklistId\":\"CL22364\",\"presenceNoted\":false,\"hasComments\":false,\"firstName\":\"clay\",\"lastName\":\"spencer\",\"hasRichMedia\":false,\"locID\":\"L295658\"}]"
+						},
+						{
+							"name": "Simple Detail",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent/notable?detail=simple",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"{{regionCode}}",
+										"recent",
+										"notable"
+									],
+									"query": [
+										{
+											"key": "detail",
+											"value": "simple"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "17332",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 23 Aug 2017 18:37:39 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodo02.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"speciesCode\":\"libher\",\"comName\":\"Little Blue Heron\",\"sciName\":\"Egretta caerulea\",\"locId\":\"L295658\",\"locName\":\"Wallkill River NWR--Liberty Marsh (NY)\",\"obsDt\":\"2017-08-23 10:11\",\"howMany\":1,\"lat\":41.2833266,\"lng\":-74.5262526,\"obsValid\":false,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"larspa\",\"comName\":\"Lark Sparrow\",\"sciName\":\"Chondestes grammacus\",\"locId\":\"L109147\",\"locName\":\"Jones Beach SP--West End\",\"obsDt\":\"2017-08-23 10:00\",\"howMany\":1,\"lat\":40.5786111,\"lng\":-73.5727778,\"obsValid\":true,\"obsReviewed\":true,\"locationPrivate\":false},{\"speciesCode\":\"libher\",\"comName\":\"Little Blue Heron\",\"sciName\":\"Egretta caerulea\",\"locId\":\"L295658\",\"locName\":\"Wallkill River NWR--Liberty Marsh (NY)\",\"obsDt\":\"2017-08-23 09:00\",\"howMany\":1,\"lat\":41.2833266,\"lng\":-74.5262526,\"obsValid\":false,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"uplsan\",\"comName\":\"Upland Sandpiper\",\"sciName\":\"Bartramia longicauda\",\"locId\":\"L5679821\",\"locName\":\"Lower Lake Rd. X Burgess Rd. fields\",\"obsDt\":\"2017-08-23 08:41\",\"howMany\":1,\"lat\":43.3669587,\"lng\":-78.5057044,\"obsValid\":false,\"obsReviewed\":false,\"locationPrivate\":false}]"
+						}
+					]
+				},
+				{
+					"name": "Recent observations of a species in a region",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "24eb3d44-db28-466b-9844-3b40342277cb",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent/{{speciesCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"{{regionCode}}",
+								"recent",
+								"{{speciesCode}}"
+							]
+						},
+						"description": "Get the recent observations, up to 30 days ago, of a particular species \r\nin a country, region or location.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n| speciesCode | The eBird species code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| r  | any location code | (none) | Fetch observations from up to 10 locations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |\r\n\r\n#### Headers\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| X-eBirdApiToken | Your API key. |\r\n\r\n#### Notes\r\n\r\nThe species code is typically a 6-letter code, e.g. cangoo for Canada Goose. You can \r\nget complete set of species code from the GET eBird Taxonomy end-point.\r\n\r\nWhen using the *r* query parameter set the *regionCode* URL parameter to an empty string."
+					},
+					"response": [
+						{
+							"name": "Example 1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/recent/{{speciesCode}}",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"{{regionCode}}",
+										"recent",
+										"{{speciesCode}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "22562",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Thu, 24 Aug 2017 14:47:40 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodo02.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"speciesCode\":\"cangoo\",\"comName\":\"Canada Goose\",\"sciName\":\"Branta canadensis\",\"locId\":\"L1150539\",\"locName\":\"Hanshaw Rd. fields\",\"obsDt\":\"2017-08-23 20:05\",\"howMany\":30,\"lat\":42.4663513,\"lng\":-76.4531064,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"cangoo\",\"comName\":\"Canada Goose\",\"sciName\":\"Branta canadensis\",\"locId\":\"L6208778\",\"locName\":\"169 Locust Ln, Richfield US-NY (42.8366,-75.0028)\",\"obsDt\":\"2017-08-23 19:45\",\"howMany\":13,\"lat\":42.83663,\"lng\":-75.002794,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":true}]"
+						}
+					]
+				},
+				{
+					"name": "Recent nearby observations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7464ccad-a61a-4e2c-8983-9ed5455645d1",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/geo/recent?lat={{lat}}&lng={{lng}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"geo",
+								"recent"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "{{lat}}"
+								},
+								{
+									"key": "lng",
+									"value": "{{lng}}"
+								}
+							]
+						},
+						"description": "Get the list of recent observations (up to 30 days ago) of birds seen\r\nat locations within a radius of up to 50 kilometers, from a given set\r\nof coordinates.\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| cat | any available [category](https://ebird.org/science/the-ebird-taxonomy) | (all) | Only fetch observations from these taxonomic categories. |\r\n| dist  | 0 - 50 | 25 | The search radius from the given position, in kilometers. | \r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| lat  | -90 - 90 | | **Required.** Latitude to 2 decimal places. | \r\n| lng  | -180 - 180 | | **Required.** Longitude to 2 decimal places. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| sort | date, species  | date | Sort observations by taxonomy or by date, most recent first. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |"
+					},
+					"response": [
+						{
+							"name": "Sort Taxonomically",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/geo/recent?lat={{lat}}&lng={{lng}}&sort=species",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"geo",
+										"recent"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{lat}}"
+										},
+										{
+											"key": "lng",
+											"value": "{{lng}}"
+										},
+										{
+											"key": "sort",
+											"value": "species"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "7498",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Thu, 24 Aug 2017 14:49:57 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodo02.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"speciesCode\":\"domgoo1\",\"comName\":\"Domestic goose sp. (Domestic type)\",\"sciName\":\"Anser sp. (Domestic type)\",\"locId\":\"L99381\",\"locName\":\"Stewart Park\",\"obsDt\":\"2017-08-23 08:14\",\"howMany\":2,\"lat\":42.4613413,\"lng\":-76.5054578,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"cangoo\",\"comName\":\"Canada Goose\",\"sciName\":\"Branta canadensis\",\"locId\":\"L1150539\",\"locName\":\"Hanshaw Rd. fields\",\"obsDt\":\"2017-08-23 20:05\",\"howMany\":30,\"lat\":42.4663513,\"lng\":-76.4531064,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"wooduc\",\"comName\":\"Wood Duck\",\"sciName\":\"Aix sponsa\",\"locId\":\"L1150931\",\"locName\":\"Danby - Bald Hill Rd/Comfort Rd/Lieb Rd block\",\"obsDt\":\"2017-08-23 19:05\",\"howMany\":12,\"lat\":42.3361988,\"lng\":-76.4980173,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":true}]"
+						},
+						{
+							"name": "Default Sort By Date",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/geo/recent?lat={{lat}}&lng={{lng}}",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"data",
+										"obs",
+										"geo",
+										"recent"
+									],
+									"query": [
+										{
+											"key": "lat",
+											"value": "{{lat}}"
+										},
+										{
+											"key": "lng",
+											"value": "{{lng}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "7363",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Thu, 24 Aug 2017 14:49:10 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodo02.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"speciesCode\":\"veery\",\"comName\":\"Veery\",\"sciName\":\"Catharus fuscescens\",\"locId\":\"L1483567\",\"locName\":\"Cornell University--Libe Slope\",\"obsDt\":\"2017-08-23 22:30\",\"howMany\":2,\"lat\":42.44786,\"lng\":-76.48595,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"swathr\",\"comName\":\"Swainson's Thrush\",\"sciName\":\"Catharus ustulatus\",\"locId\":\"L1483567\",\"locName\":\"Cornell University--Libe Slope\",\"obsDt\":\"2017-08-23 22:30\",\"howMany\":1,\"lat\":42.44786,\"lng\":-76.48595,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false},{\"speciesCode\":\"ovenbi1\",\"comName\":\"Ovenbird\",\"sciName\":\"Seiurus aurocapilla\",\"locId\":\"L1483567\",\"locName\":\"Cornell University--Libe Slope\",\"obsDt\":\"2017-08-23 22:30\",\"howMany\":3,\"lat\":42.44786,\"lng\":-76.48595,\"obsValid\":true,\"obsReviewed\":false,\"locationPrivate\":false}]"
+						}
+					]
+				},
+				{
+					"name": "Recent nearby observations of a species",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3f1cdaf-24f6-40e3-a8b6-fc9f7f3e1e19",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/geo/recent/{{speciesCode}}?lat={{lat}}&lng={{lng}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"geo",
+								"recent",
+								"{{speciesCode}}"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "{{lat}}"
+								},
+								{
+									"key": "lng",
+									"value": "{{lng}}"
+								}
+							]
+						},
+						"description": "Get all observations of a species, seen up to 30 days ago, at any location \r\nwithin a radius of up to 50 kilometers, from a given set of coordinates.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| speciesCode | The eBird species code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| dist  | 0 - 50 | 25 | The search radius from the given position, in kilometers. | \r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| lat  | -90 - 90 | | **Required.** Latitude to 2 decimal places. | \r\n| lng  | -180 - 180 | | **Required.** Longitude to 2 decimal places. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |\r\n\r\n\r\n#### Notes\r\n\r\nThe species code is typically a 6-letter code, e.g. horlar for Horned Lark. You can \r\nget complete set of species code from the GET eBird Taxonomy end-point."
+					},
+					"response": []
+				},
+				{
+					"name": "Nearest observations of a species",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f30da9e9-0cbc-41b8-94c7-187f4e393b5d",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/nearest/geo/recent/{{speciesCode}}?lat={{lat}}&lng={{lng}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"nearest",
+								"geo",
+								"recent",
+								"{{speciesCode}}"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "{{lat}}"
+								},
+								{
+									"key": "lng",
+									"value": "{{lng}}"
+								}
+							]
+						},
+						"description": "Find the nearest locations where a species has been seen recently.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| speciesCode | The eBird species code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| lat  | -90 - 90 | | **Required.** Latitude to 2 decimal places. | \r\n| lng  | -180 - 180 | | **Required.** Longitude to 2 decimal places. | \r\n| maxResults | 1-3000  | 3000 | Only fetch up to this number of observations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |\r\n| dist | 0-50  | (all) | Only fetch observations within this distance of the provided lat/lng |\r\n\r\n\r\n\r\n#### Notes\r\n\r\nThe species code is typically a 6-letter code, e.g. barswa for Barn Swallow. You can \r\nget complete set of species code from the GET eBird Taxonomy end-point."
+					},
+					"response": []
+				},
+				{
+					"name": "Recent nearby notable observations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/geo/recent/notable?lat={{lat}}&lng={{lng}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"geo",
+								"recent",
+								"notable"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "{{lat}}"
+								},
+								{
+									"key": "lng",
+									"value": "{{lng}}"
+								}
+							]
+						},
+						"description": "Get the list of notable observations (up to 30 days ago) of birds seen\r\nat locations within a radius of up to 50 kilometers, from a given set\r\nof coordinates.\r\n\r\nNotable observations can be for locally or nationally rare species or \r\nare otherwise unusual, for example over-wintering birds in a species \r\nwhich is normally only a summer visitor.\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | 14 | The number of days back to fetch observations. | \r\n| detail | simple, full  | simple | Include a subset (simple), or all (full), of the fields available. |\r\n| dist  | 0 - 50 | 25 | The search radius from the given position, in kilometers. | \r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| lat  | -90 - 90 | | **Required.** Latitude to 2 decimal places. | \r\n| lng  | -180 - 180 | | **Required.** Longitude to 2 decimal places. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |"
+					},
+					"response": []
+				},
+				{
+					"name": "Historic observations on a date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}",
+								"description": "Your API Key"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/data/obs/{{regionCode}}/historic/{{y}}/{{m}}/{{d}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"data",
+								"obs",
+								"{{regionCode}}",
+								"historic",
+								"{{y}}",
+								"{{m}}",
+								"{{d}}"
+							]
+						},
+						"description": "Get a list of all taxa seen in a country, region or location \r\non a specific date, with the specific observations determined by the \"rank\" parameter (defaults to latest observation on the date).\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n| year | The year, from 1800 to the present. |\r\n| month | The month, from 1 -12. |\r\n| day | The day in the month. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| cat | any available [category](https://ebird.org/science/the-ebird-taxonomy) | (all) | Only fetch observations from these taxonomic categories. |\r\n| detail | simple, full  | simple | Include a subset (simple), or all (full), of the fields available. |\r\n| hotspot | true, false  | false | Only fetch observations from [hotspots](https://help.ebird.org/customer/en/portal/articles/1900690-all-about-hotspots). |\r\n| includeProvisional | true, false  | false | Include observations which have not yet been reviewed. | \r\n| maxResults | 1-10000  | (all) | Only fetch this number of observations. |\r\n| rank  | mrec, create | mrec | Include latest observation of the day, or the first added |\r\n| r  | any location code | (none) | Fetch observations from up to 50 locations. |\r\n| sppLocale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for species common names. |\r\n\r\n\r\n#### Notes\r\n\r\nResponses may be cached for 30 minutes"
+					},
+					"response": []
+				}
+			],
+			"description": "The data/obs end-points are used to fetch observations submitted to eBird in checklists. There are two categories of end-point:\r\n\r\n1. Fetch observations for a specific country, region or location.\r\n2. Fetch observations for nearby locations - up to a distance of 50km.\r\n\r\nEach end-point supports optional query parameters which allow you to filter the list of observations returned.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c9328972-1886-48f3-8b39-774d7cadba28",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ade1cf4-dda2-4971-a2ea-c0a6dbbc3548",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "Top 100",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a385e371-8922-4e0b-aa1b-714b43d9c4a7",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/top100/{{regionCode}}/{{y}}/{{m}}/{{d}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"top100",
+								"{{regionCode}}",
+								"{{y}}",
+								"{{m}}",
+								"{{d}}"
+							]
+						},
+						"description": "Get the top 100 contributors on a given date for a country or region.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n| year | The year, from 1800 to the present. |\r\n| month | The month, from 1 -12. |\r\n| day | The day in the month. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| rankedBy | spp, cl | spp | Order by number of complete checklists (cl) or by number of species seen (spp). | \r\n| maxResults  | 1 - 100 | (all) | Only fetch this number of contributors. | \r\n\r\n#### Notes\r\n\r\nThe results are updated every 15 minutes.\r\n\r\nWhen ordering by the number of completed checklists, the number of \r\nspecies seen will always be zero. Similarly when ordering by the number of \r\nspecies seen the number of completed checklists will always be zero.\r\n\r\n<b>Selected Response Field Notes</b>\r\n\r\nprofileHandle - if a user has enabled their profile, this is the handle to reach it via ebird.org/ebird/profile/{profileHandle}\r\n\r\nnumSpecies - always zero when checklistSort parameter is true. Invalid observations ARE included in this total\r\n\r\nnumCompleteChecklists - always zero when checklistSort parameter is false"
+					},
+					"response": []
+				},
+				{
+					"name": "Checklist feed on a date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/lists/{{regionCode}}/{{y}}/{{m}}/{{d}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"lists",
+								"{{regionCode}}",
+								"{{y}}",
+								"{{m}}",
+								"{{d}}"
+							]
+						},
+						"description": "Get information on the checklists submitted on a given date for a country or region.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n| year | The year, from 1800 to the present. |\r\n| month | The month, from 1 -12. |\r\n| day | The day in the month. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| sortKey | obs_dt, creation_dt | obs_dt | Order the results by the date of the checklist or by the date it was submitted. | \r\n| maxResults  | 1 - 200 | 10 | Only fetch this number of checklists. |"
+					},
+					"response": []
+				},
+				{
+					"name": "Recent checklists feed",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/lists/{{regionCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"lists",
+								"{{regionCode}}"
+							]
+						},
+						"description": "Get information on the most recently submitted checklists for a region.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| maxResults  | 1 - 200 | 10 | Only fetch this number of checklists. |"
+					},
+					"response": []
+				},
+				{
+					"name": "Regional statistics on a date",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/stats/{{regionCode}}/{{y}}/{{m}}/{{d}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"stats",
+								"{{regionCode}}",
+								"{{y}}",
+								"{{m}}",
+								"{{d}}"
+							]
+						},
+						"description": "Get a summary of the number of checklist submitted, species seen and \r\ncontributors on a given date for a country or region.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1, subnational2 or location code. |\r\n| year | The year, from 1800 to the present. |\r\n| month | The month, from 1 -12. |\r\n| day | The day in the month. |\r\n\r\n\r\n#### Notes\r\n\r\nThe results are updated every 15 minutes."
+					},
+					"response": []
+				},
+				{
+					"name": "Species List at a Location [IN DEVELOPMENT]",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/spplist/{{locId}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"spplist",
+								"{{locId}}"
+							]
+						},
+						"description": "Get a list of species codes ever seen at a location, in taxonomic order (species taxa only)\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| locId | The location code. |\r\n\r\n\r\n#### Notes\r\n\r\nThe results are usually updated every 10 seconds"
+					},
+					"response": []
+				},
+				{
+					"name": "View Checklist (BETA)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/product/checklist/view/{{subId}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"product",
+								"checklist",
+								"view",
+								"{{subId}}"
+							]
+						},
+						"description": "Get the details and observations of a checklist.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| subId | The checklist identifier. |\r\n\r\n#### Notes\r\n\r\nDo NOT use this to download large amounts of data. You will \r\nbe banned if you do.\r\n\r\nIn the fields for each observation, the following fields are \r\nduplicates or obsolete and will be removed at a future date: *howManyAtleast*,\r\n*howManyAtmost*, *hideFlags*, *projId*, *subId*, *subnational1Code* \r\nand *present*."
+					},
+					"response": [
+						{
+							"name": "View Checklist",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/product/checklist/view/{{subId}}",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"product",
+										"checklist",
+										"view",
+										"{{subId}}"
+									]
+								}
+							},
+							"status": "200",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "Cache-Control",
+									"description": ""
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive",
+									"name": "Connection",
+									"description": ""
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": ""
+								},
+								{
+									"key": "Content-Length",
+									"value": "427",
+									"name": "Content-Length",
+									"description": ""
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8",
+									"name": "Content-Type",
+									"description": ""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 05 Mar 2018 19:28:15 GMT",
+									"name": "Date",
+									"description": ""
+								},
+								{
+									"key": "Expires",
+									"value": "0",
+									"name": "Expires",
+									"description": ""
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100",
+									"name": "Keep-Alive",
+									"description": ""
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache",
+									"name": "Pragma",
+									"description": ""
+								},
+								{
+									"key": "Server",
+									"value": "Apache",
+									"name": "Server",
+									"description": ""
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff",
+									"name": "X-Content-Type-Options",
+									"description": ""
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY",
+									"name": "X-Frame-Options",
+									"description": ""
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block",
+									"name": "X-XSS-Protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"projId\":\"EBIRD\",\"subId\":\"S29893687\",\"protocolId\":\"P21\",\"locId\":\"L99381\",\"durationHrs\":1.0,\"allObsReported\":false,\"creationDt\":\"2018-01-04 14:30\",\"lastEditedDt\":\"2018-01-09 18:45\",\"obsDt\":\"2018-01-04 23:29\",\"obsTimeValid\":true,\"checklistId\":\"CL22224\",\"numObservers\":1,\"subnational1Code\":\"US-NY\",\"submissionMethodCode\":\"EBIRD_api\",\"userDisplayName\":\"Tim Lenz\",\"obs\":[{\"speciesCode\":\"gwfgoo\",\"hideFlags\":[],\"obsDt\":\"2018-01-04 18:29\",\"subnational1Code\":\"US-NY\",\"howManyAtleast\":1,\"howManyAtmost\":1,\"howManyStr\":\"1\",\"present\":false,\"projId\":\"EBIRD\",\"subId\":\"S29893687\",\"obsId\":\"OBS406047821\"},{\"speciesCode\":\"gwfgoo2\",\"hideFlags\":[],\"obsDt\":\"2018-01-04 18:29\",\"subnational1Code\":\"US-NY\",\"howManyAtleast\":1,\"howManyAtmost\":1,\"howManyStr\":\"1\",\"present\":false,\"projId\":\"EBIRD\",\"subId\":\"S29893687\",\"obsId\":\"OBS406047822\"},{\"speciesCode\":\"cacgoo1\",\"hideFlags\":[],\"obsDt\":\"2018-01-04 18:29\",\"subnational1Code\":\"US-NY\",\"howManyAtleast\":1,\"howManyAtmost\":1,\"howManyStr\":\"1\",\"present\":false,\"projId\":\"EBIRD\",\"subId\":\"S29893687\",\"obsId\":\"OBS406047820\",\"obsAux\":[{\"subId\":\"S29893687\",\"obsId\":\"OBS406047820\",\"speciesCode\":\"cacgoo1\",\"fieldName\":\"breeding_code\",\"entryMethodCode\":\"ebird_breeding\",\"auxCode\":\"UN\",\"value\":\"C4\"}]}]}"
+						}
+					]
+				}
+			],
+			"description": "The product end-points make it easy to get the information shown\r\nin various pages on the eBird web site:\r\n\r\n1. The Top 100 contributors on a given date.\r\n2. The checklists submitted on a given date.\r\n3. The most recent checklists submitted.\r\n4. A summary of the checklists submitted on a given date.\r\n5. The details and all the observations of a checklist.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "889644ba-b985-4d42-9c56-e33f66281880",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f40b6000-54bd-461b-aea8-14cc56abcf71",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ref/geo",
+			"item": [
+				{
+					"name": "Adjacent Regions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/adjacent/{{regionCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"adjacent",
+								"{{regionCode}}"
+							]
+						},
+						"description": "Get the list of countries or regions that share a border with this one.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1 or subnational2 code. |\r\n\r\n#### Notes\r\n\r\nOnly subnational2 codes in the United States, New Zealand, or Mexico are currently supported"
+					},
+					"response": [
+						{
+							"name": "Adjacent States To New York",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/adjacent/US-NY",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"adjacent",
+										"US-NY"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Aug 2019 17:57:51 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Length",
+									"value": "222"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"code\": \"US-CT\",\n        \"name\": \"Connecticut\"\n    },\n    {\n        \"code\": \"US-MA\",\n        \"name\": \"Massachusetts\"\n    },\n    {\n        \"code\": \"US-NJ\",\n        \"name\": \"New Jersey\"\n    },\n    {\n        \"code\": \"US-PA\",\n        \"name\": \"Pennsylvania\"\n    },\n    {\n        \"code\": \"CA-QC\",\n        \"name\": \"Quebec\"\n    },\n    {\n        \"code\": \"US-VT\",\n        \"name\": \"Vermont\"\n    }\n]"
+						}
+					]
+				}
+			],
+			"description": "With the ref/geo end-point you can find a country's or region's neighbours.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9838e1ec-d7ff-4d73-aba6-24a344697a9d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f0d221cd-32e8-48ff-b26f-4b26ff007f21",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ref/hotspot",
+			"item": [
+				{
+					"name": "Hotspots in a region",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5c18d12e-db6a-4de7-894d-7fed83de35f2",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/hotspot/{{regionCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"hotspot",
+								"{{regionCode}}"
+							]
+						},
+						"description": "#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionCode | The country, subnational1 or subnational2 code. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | (none) | Only fetch hotspots which have been visited up to 'back' days ago. | \r\n| fmt | csv, json  | csv | Fetch the records in CSV or JSON format. |"
+					},
+					"response": []
+				},
+				{
+					"name": "Nearby hotspots",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3b5474a4-42c9-4392-87e1-8d287184b0e2",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/hotspot/geo?lat={{lat}}&lng={{lng}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"hotspot",
+								"geo"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "{{lat}}"
+								},
+								{
+									"key": "lng",
+									"value": "{{lng}}"
+								}
+							]
+						},
+						"description": "Get the list of hotspots, within a radius of up to 50 kilometers, from a given set of coordinates.\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| back | 1-30 | (none) | Only fetch hotspots which have been visited up to 'back' days ago. | \r\n| dist  | 0 - 500 | 25 | The search radius from the given position, in kilometers. | \r\n| fmt | csv, json  | csv | Fetch the records in CSV or JSON format. |\r\n| lat  | -90 - 90 | | **Required.** Latitude to 2 decimal places. | \r\n| lng  | -180 - 180 | | **Required.** Longitude to 2 decimal places. |"
+					},
+					"response": []
+				},
+				{
+					"name": "Hotspot Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "36a8c6df-b814-4e24-9ea7-48a11d58dc12",
+								"exec": [
+									"pm.test(responseBody, true)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/hotspot/info/{{locId}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"hotspot",
+								"info",
+								"{{locId}}"
+							]
+						},
+						"description": "Get information on the location of a hotspot.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| locId | The location code. |\r\n\r\n#### Notes\r\n\r\nThis API call only works for hotspots. If you pass the location code for a private location or an invalid location code then an HTTP 410 (Gone) error is returned."
+					},
+					"response": [
+						{
+							"name": "Hotspot Info",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/hotspot/info/{{locId}}",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"hotspot",
+										"info",
+										"{{locId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "218",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Thu, 14 Sep 2017 19:30:53 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodot1.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "{\"locId\":\"L99381\",\"name\":\"Stewart Park\",\"latitude\":42.4613413,\"longitude\":-76.5054578,\"countryCode\":\"US\",\"countryName\":\"United States\",\"subnational1Name\":\"New York\",\"subnational1Code\":\"US-NY\",\"subnational2Code\":\"US-NY-109\",\"subnational2Name\":\"Tompkins\",\"isHotspot\":true,\"hierarchicalName\":\"Stewart Park, Tompkins, New York, US\",\"locID\":\"L99381\"}"
+						}
+					]
+				}
+			],
+			"description": "With the ref/hotspot end-points you can find the hotspots for a given country or region or nearby hotspots",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b729d5a8-89fa-4351-a1be-ebb3c759d7a0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "c99dbe24-b508-436c-8bf9-d4e164f9443f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ref/taxonomy",
+			"item": [
+				{
+					"name": "eBird Taxonomy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxonomy/ebird",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"taxonomy",
+								"ebird"
+							]
+						},
+						"description": "Get the taxonomy used by eBird.\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| cat | any available [category](https://ebird.org/science/the-ebird-taxonomy), must be lowercase | (all) | Only fetch records from these taxonomic categories. |\r\n| fmt | csv, json  | csv | Fetch the records in CSV or JSON format. |\r\n| locale | any available [locale](https://help.ebird.org/customer/portal/articles/1596582-common-name-translations-in-ebird) | en | Use this language for common names. |\r\n| species | any species code  | (none) | Only fetch records for these species. |\r\n| version | any available version  | (latest) | Fetch a specific version of the taxonomy. |\r\n\r\n#### Notes\r\n\r\nEach entry in the taxonomy contains a species code for example, barswa \r\nfor Barn Swallow. You can download the taxonomy for selected species \r\nusing the *species* query parameter with a comma separating each code.\r\nOtherwise the full taxonomy is downloaded."
+					},
+					"response": [
+						{
+							"name": "eBird Taxonomy (CSV) for selected species",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxonomy/ebird?species=thagul,kumgul1",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"taxonomy",
+										"ebird"
+									],
+									"query": [
+										{
+											"key": "species",
+											"value": "thagul,kumgul1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plainText",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-disposition",
+									"value": "attachment; filename=ebird_taxonomy_2017.0.csv",
+									"name": "content-disposition",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "275",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "text/csv;charset=utf-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 30 Aug 2017 14:41:53 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "(null)",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "SCIENTIFIC_NAME,COMMON_NAME,SPECIES_CODE,CATEGORY,TAXON_ORDER,COM_NAME_CODES,SCI_NAME_CODES,BANDING_CODES,ORDER,FAMILY_COM_NAME,FAMILY_SCI_NAME,REPORT_AS,EXTINCT,EXTINCT_YEAR\nLarus glaucoides thayeri,Iceland Gull (Thayer's),thagul,issf,4349.0,THGU ICGU,LAGL,THGU,Charadriiformes,\"Gulls, Terns, and Skimmers\",Laridae,y00478,,\nLarus glaucoides kumlieni,Iceland Gull (kumlieni),kumgul1,issf,4352.0,THGU ICGU,LAGL,,Charadriiformes,\"Gulls, Terns, and Skimmers\",Laridae,y00478,,\n"
+						}
+					]
+				},
+				{
+					"name": "Taxonomic Forms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxon/forms/{{speciesCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"taxon",
+								"forms",
+								"{{speciesCode}}"
+							]
+						},
+						"description": "For a species, get the list of subspecies recognised in the taxonomy. The results include the species that was passed in.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---- | ----------- |\r\n| speciesCode | The species code from the taxonomy. |"
+					},
+					"response": [
+						{
+							"name": "Taxonomic Forms",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxon/forms/cangoo",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"taxon",
+										"forms",
+										"cangoo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "40",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 30 Aug 2017 14:44:22 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "(null)",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[\"cangoo4\",\"cangoo3\",\"cangoo1\",\"cangoo\"]"
+						}
+					]
+				},
+				{
+					"name": "Taxonomy Versions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxonomy/versions",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"taxonomy",
+								"versions"
+							]
+						},
+						"description": "Returns a list of all versions of the taxonomy, with a flag indicating which is the latest."
+					},
+					"response": [
+						{
+							"name": "Taxonomy Versions",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}",
+										"warning": ""
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"warning": ""
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/taxonomy/versions",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"taxonomy",
+										"versions"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "113",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 30 Aug 2017 14:44:27 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "(null)",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"authorityVer\":2017.0,\"latest\":true},{\"authorityVer\":2016.0,\"latest\":false},{\"authorityVer\":2015.0,\"latest\":false},{\"authorityVer\":1.55,\"latest\":false},{\"authorityVer\":1.54,\"latest\":false},{\"authorityVer\":1.53,\"latest\":false},{\"authorityVer\":1.52,\"latest\":false},{\"authorityVer\":1.051,\"latest\":false},{\"authorityVer\":1.05,\"latest\":false},{\"authorityVer\":1.049,\"latest\":false},{\"authorityVer\":1.048,\"latest\":false},{\"authorityVer\":1.0,\"latest\":false},{\"authorityVer\":0.9,\"latest\":false}]"
+						}
+					]
+				},
+				{
+					"name": "Taxonomic Groups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/sppgroup/{{speciesGrouping}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"sppgroup",
+								"{{speciesGrouping}}"
+							]
+						},
+						"description": "Get the list of species groups, e.g. terns, finches, etc.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---- | ----------- |\r\n| speciesGrouping | Select the order in  which groups are returned, either 'merlin' or 'ebird'. |\r\n\r\n#### Query parameters\r\n\r\n| Name | Values | Default | Description |\r\n| ---- | ------:| -------:| ----------- |\r\n| groupNameLocale | bg,cs,da,de,en,es,es_AR,es_CL,es_CU,es_ES,es_MX,es_PA,fr,he,is,nl,no,pt_BR,pt_PT,ru,sr,th,tr, or zh | en | Locale for species group names. English names are returned for any non-listed locale or any non-translated group name|\r\n\r\n#### Notes\r\n\r\nMerlin puts like birds together, with Falcons next to Hawks, whereas eBird follows taxonomic order."
+					},
+					"response": [
+						{
+							"name": "merlin",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/sppgroup/merlin",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"sppgroup",
+										"merlin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "4391",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 13 Sep 2017 14:04:05 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodot1.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"groupName\": \"Waterfowl\",\n        \"groupOrder\": 1,\n        \"taxonOrderBounds\": [\n            [\n                211,\n                579\n            ]\n        ]\n    },\n    {\n        \"groupName\": \"Cormorants and Anhingas\",\n        \"groupOrder\": 2,\n        \"taxonOrderBounds\": [\n            [\n                1968,\n                2063\n            ]\n        ]\n    },\n    {\n        \"groupName\": \"Wattle-eyes and Batises\",\n        \"groupOrder\": 114,\n        \"taxonOrderBounds\": [\n            [\n                16549,\n                16613\n            ]\n        ]\n    }\n]"
+						},
+						{
+							"name": "ebird",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/sppgroup/ebird",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"sppgroup",
+										"ebird"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "connection",
+									"value": "close",
+									"name": "connection",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "4297",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Wed, 13 Sep 2017 14:06:09 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-server-name",
+									"value": "dodot1.ornith.cornell.edu",
+									"name": "x-server-name",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"groupName\": \"Vultures, Hawks, and Allies\",\n        \"groupOrder\": 1,\n        \"taxonOrderBounds\": [\n            [\n                2358,\n                3042\n            ]\n        ]\n    },\n    {\n        \"groupName\": \"Thrushes\",\n        \"groupOrder\": 2,\n        \"taxonOrderBounds\": [\n            [\n                24315,\n                24993\n            ]\n        ]\n    },\n    {\n        \"groupName\": \"Catbirds, Mockingbirds, and Thrashers\",\n        \"groupOrder\": 3,\n        \"taxonOrderBounds\": [\n            [\n                26353,\n                26468.2\n            ]\n        ]\n    }\n]"
+						}
+					]
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ref/region",
+			"item": [
+				{
+					"name": "Region Info",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/info/{{regionCode}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"region",
+								"info",
+								"{{regionCode}}"
+							]
+						},
+						"description": "Get information on the name and geographical area covered by a region.\n\n#### URL parameters\n\n| Name | Description |\n| ---------- | ----------- |\n| regionCode | The major region, country, subnational1 or subnational2 code. |\n\n#### Query parameters\n\n| Name | Values | Default | Description |\n| ---- | ------:| -------:| ----------- |\n| regionNameFormat | detailed, detailednoqual, full, namequal, nameonly, revdetailed | full | Control how the name is displayed. | \n| delim | (any characters) | ', ' | The characters used to separate elements in the name. | \n\n#### Notes\n\nTaking Madison County, New York, USA (location code US-NY-053) as an example\nthe various values for the regionNameFormat query parameter work as follows:\n\n| Value | Description | Result |\n| ------| ----------- | ------ |\n| detailed | return a detailed description | Madison County, New York, US |\n| detailednoqual | return the name to the subnational1 level | Madison, New York |\n| full | return the full description | Madison, New York, United States |\n| namequal | return the qualified name | Madison County |\n| nameonly | return only the name of the region | Madison |\n| revdetailed | return the detailed description in reverse | US, New York, Madison County |"
+					},
+					"response": [
+						{
+							"name": "Canada",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/info/CA",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"info",
+										"CA"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Aug 2019 14:58:03 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Length",
+									"value": "101"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": \"Canada\",\n    \"bounds\": {\n        \"minX\": -141.006867,\n        \"maxX\": -52.618888,\n        \"minY\": 41.708293,\n        \"maxY\": 83.110626\n    }\n}"
+						},
+						{
+							"name": "Vancouver, Detailed Format",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/info/CA-BC-GV?regionNameFormat=detailed",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"info",
+										"CA-BC-GV"
+									],
+									"query": [
+										{
+											"key": "regionNameFormat",
+											"value": "detailed"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json;charset=UTF-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 28 Aug 2019 14:58:59 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000 ; includeSubDomains"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Content-Length",
+									"value": "141"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"result\": \"Metro Vancouver District, British Columbia, CA\",\n    \"bounds\": {\n        \"minX\": -123.432442,\n        \"maxX\": -122.408264,\n        \"minY\": 49.001183,\n        \"maxY\": 49.57455\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Sub Region List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-eBirdApiToken",
+								"value": "{{x-ebirdapitoken}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/list/{{regionType}}/{{parentRegionCode}}.{{fmt}}",
+							"protocol": "https",
+							"host": [
+								"{{serverName}}"
+							],
+							"path": [
+								"{{contextRoot}}",
+								"ref",
+								"region",
+								"list",
+								"{{regionType}}",
+								"{{parentRegionCode}}.{{fmt}}"
+							]
+						},
+						"description": "Get the list of sub-regions for a given country or region.\r\n\r\n#### URL parameters\r\n\r\n| Name | Description |\r\n| ---------- | ----------- |\r\n| regionType | The region type: 'country', 'subnational1' or 'subnational2'. |\r\n| parentRegionCode | The country or subnational1 code, or 'world'. |\r\n| fmt | The format for the records, either 'csv' or 'json' (the default). |\r\n\r\n#### Notes\r\n\r\nNot all combinations of region type and region code are valid. You can \r\nfetch all the subnational1 or subnational2 regions for a country however\r\nyou can only specify a region type of 'country' when using 'world' as a \r\nregion code."
+					},
+					"response": [
+						{
+							"name": "Counties in Nevada",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/list/subnational2/US-NV.json",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"list",
+										"subnational2",
+										"US-NV.json"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "217",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Fri, 15 Sep 2017 15:10:35 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"code\":\"US-NV-510\",\"name\":\"Carson City\"},{\"code\":\"US-NV-001\",\"name\":\"Churchill\"},{\"code\":\"US-NV-003\",\"name\":\"Clark\"},{\"code\":\"US-NV-005\",\"name\":\"Douglas\"},{\"code\":\"US-NV-007\",\"name\":\"Elko\"},{\"code\":\"US-NV-009\",\"name\":\"Esmeralda\"},{\"code\":\"US-NV-011\",\"name\":\"Eureka\"},{\"code\":\"US-NV-013\",\"name\":\"Humboldt\"},{\"code\":\"US-NV-015\",\"name\":\"Lander\"},{\"code\":\"US-NV-017\",\"name\":\"Lincoln\"},{\"code\":\"US-NV-019\",\"name\":\"Lyon\"},{\"code\":\"US-NV-021\",\"name\":\"Mineral\"},{\"code\":\"US-NV-023\",\"name\":\"Nye\"},{\"code\":\"US-NV-027\",\"name\":\"Pershing\"},{\"code\":\"US-NV-029\",\"name\":\"Storey\"},{\"code\":\"US-NV-031\",\"name\":\"Washoe\"},{\"code\":\"US-NV-033\",\"name\":\"White Pine\"}]"
+						},
+						{
+							"name": "Counties in New Zealand",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/list/subnational2/NZ",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"list",
+										"subnational2",
+										"NZ"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "943",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Fri, 15 Sep 2017 15:12:02 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"code\":\"NZ-CAN-063\",\"name\":\"Ashburton District\"},{\"code\":\"NZ-AUK-007\",\"name\":\"Auckland City\"},{\"code\":\"NZ-WTC-055\",\"name\":\"Buller District\"},{\"code\":\"NZ-WGN-049\",\"name\":\"Carterton District\"},{\"code\":\"NZ-HKB-032\",\"name\":\"Central Hawke's Bay District\"},{\"code\":\"NZ-OTA-069\",\"name\":\"Central Otago District\"},{\"code\":\"NZ-CAN-060\",\"name\":\"Christchurch City\"},{\"code\":\"NZ-OTA-072\",\"name\":\"Clutha District\"},{\"code\":\"NZ-OTA-071\",\"name\":\"Dunedin City\"},{\"code\":\"NZ-NTL-001\",\"name\":\"Far North District\"},{\"code\":\"NZ-AUK-010\",\"name\":\"Franklin District\"},{\"code\":\"NZ-WKO-010\",\"name\":\"Franklin District\"},{\"code\":\"NZ-GIS-028\",\"name\":\"Gisborne District\"},{\"code\":\"NZ-STL-074\",\"name\":\"Gore District\"},{\"code\":\"NZ-WTC-056\",\"name\":\"Grey District\"},{\"code\":\"NZ-WKO-016\",\"name\":\"Hamilton City\"},{\"code\":\"NZ-HKB-030\",\"name\":\"Hastings District\"},{\"code\":\"NZ-WKO-012\",\"name\":\"Hauraki District\"},{\"code\":\"NZ-MWT-042\",\"name\":\"Horowhenua District\"},{\"code\":\"NZ-CAN-058\",\"name\":\"Hurunui District\"},{\"code\":\"NZ-STL-075\",\"name\":\"Invercargill City\"},{\"code\":\"NZ-CAN-054\",\"name\":\"Kaikoura District\"},{\"code\":\"NZ-NTL-003\",\"name\":\"Kaipara District\"},{\"code\":\"NZ-WGN-043\",\"name\":\"Kapiti Coast District\"},{\"code\":\"NZ-BOP-026\",\"name\":\"Kawerau District\"},{\"code\":\"NZ-WGN-046\",\"name\":\"Lower Hutt City\"},{\"code\":\"NZ-CAN-065\",\"name\":\"Mackenzie District\"},{\"code\":\"NZ-MWT-039\",\"name\":\"Manawatu District\"},{\"code\":\"NZ-AUK-008\",\"name\":\"Manukau City\"},{\"code\":\"NZ-MBH-053\",\"name\":\"Marlborough District\"},{\"code\":\"NZ-WGN-048\",\"name\":\"Masterton District\"},{\"code\":\"NZ-WKO-015\",\"name\":\"Matamata-Piako District\"},{\"code\":\"NZ-HKB-031\",\"name\":\"Napier City\"},{\"code\":\"NZ-NSN-052\",\"name\":\"Nelson City\"},{\"code\":\"NZ-TKI-033\",\"name\":\"New Plymouth District\"},{\"code\":\"NZ-AUK-005\",\"name\":\"North Shore City\"},{\"code\":\"NZ-BOP-027\",\"name\":\"Opotiki District\"},{\"code\":\"NZ-WKO-018\",\"name\":\"Otorohanga District\"},{\"code\":\"NZ-MWT-040\",\"name\":\"Palmerston North City\"},{\"code\":\"NZ-AUK-009\",\"name\":\"Papakura District\"},{\"code\":\"NZ-WGN-044\",\"name\":\"Porirua City\"},{\"code\":\"NZ-OTA-070\",\"name\":\"Queenstown-Lakes District\"},{\"code\":\"NZ-HKB-038\",\"name\":\"Rangitikei District\"},{\"code\":\"NZ-MWT-038\",\"name\":\"Rangitikei District\"},{\"code\":\"NZ-AUK-004\",\"name\":\"Rodney District\"},{\"code\":\"NZ-WKO-024\",\"name\":\"Rotorua District\"},{\"code\":\"NZ-BOP-024\",\"name\":\"Rotorua District\"},{\"code\":\"NZ-MWT-036\",\"name\":\"Ruapehu District\"},{\"code\":\"NZ-CAN-062\",\"name\":\"Selwyn District\"},{\"code\":\"NZ-TKI-035\",\"name\":\"South Taranaki District\"},{\"code\":\"NZ-WKO-019\",\"name\":\"South Waikato District\"},{\"code\":\"NZ-WGN-050\",\"name\":\"South Wairarapa District\"},{\"code\":\"NZ-STL-073\",\"name\":\"Southland District\"},{\"code\":\"NZ-MWT-034\",\"name\":\"Stratford District\"},{\"code\":\"NZ-TKI-034\",\"name\":\"Stratford District\"},{\"code\":\"NZ-WGN-041\",\"name\":\"Tararua District\"},{\"code\":\"NZ-MWT-041\",\"name\":\"Tararua District\"},{\"code\":\"NZ-TAS-051\",\"name\":\"Tasman District\"},{\"code\":\"NZ-WKO-021\",\"name\":\"Taupo District\"},{\"code\":\"NZ-HKB-021\",\"name\":\"Taupo District\"},{\"code\":\"NZ-MWT-021\",\"name\":\"Taupo District\"},{\"code\":\"NZ-BOP-021\",\"name\":\"Taupo District\"},{\"code\":\"NZ-BOP-023\",\"name\":\"Tauranga City\"},{\"code\":\"NZ-WKO-011\",\"name\":\"Thames-Coromandel District\"},{\"code\":\"NZ-CAN-064\",\"name\":\"Timaru District\"},{\"code\":\"NZ-WGN-045\",\"name\":\"Upper Hutt City\"},{\"code\":\"NZ-WKO-013\",\"name\":\"Waikato District\"},{\"code\":\"NZ-CAN-059\",\"name\":\"Waimakariri District\"},{\"code\":\"NZ-CAN-066\",\"name\":\"Waimate District\"},{\"code\":\"NZ-WKO-017\",\"name\":\"Waipa District\"},{\"code\":\"NZ-HKB-029\",\"name\":\"Wairoa District\"},{\"code\":\"NZ-AUK-006\",\"name\":\"Waitakere City\"},{\"code\":\"NZ-OTA-068\",\"name\":\"Waitaki District\"},{\"code\":\"NZ-CAN-068\",\"name\":\"Waitaki District\"},{\"code\":\"NZ-WKO-020\",\"name\":\"Waitomo District\"},{\"code\":\"NZ-MWT-020\",\"name\":\"Waitomo District\"},{\"code\":\"NZ-MWT-037\",\"name\":\"Wanganui District\"},{\"code\":\"NZ-WGN-047\",\"name\":\"Wellington City\"},{\"code\":\"NZ-BOP-022\",\"name\":\"Western Bay of Plenty District\"},{\"code\":\"NZ-WTC-057\",\"name\":\"Westland District\"},{\"code\":\"NZ-BOP-025\",\"name\":\"Whakatane District\"},{\"code\":\"NZ-NTL-002\",\"name\":\"Whangarei District\"}]"
+						},
+						{
+							"name": "Countries in the World",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/list/country/world",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"list",
+										"country",
+										"world"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "2351",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Fri, 15 Sep 2017 15:12:26 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"code\":\"AF\",\"name\":\"Afghanistan\"},{\"code\":\"AL\",\"name\":\"Albania\"},{\"code\":\"DZ\",\"name\":\"Algeria\"},{\"code\":\"AS\",\"name\":\"American Samoa\"},{\"code\":\"AD\",\"name\":\"Andorra\"},{\"code\":\"AO\",\"name\":\"Angola\"},{\"code\":\"AI\",\"name\":\"Anguilla\"},{\"code\":\"AQ\",\"name\":\"Antarctica\"},{\"code\":\"AG\",\"name\":\"Antigua and Barbuda\"},{\"code\":\"AR\",\"name\":\"Argentina\"},{\"code\":\"AM\",\"name\":\"Armenia\"},{\"code\":\"AW\",\"name\":\"Aruba\"},{\"code\":\"AC\",\"name\":\"Ashmore and Cartier Islands\"},{\"code\":\"AU\",\"name\":\"Australia\"},{\"code\":\"AT\",\"name\":\"Austria\"},{\"code\":\"AZ\",\"name\":\"Azerbaijan\"},{\"code\":\"BS\",\"name\":\"Bahamas\"},{\"code\":\"BH\",\"name\":\"Bahrain\"},{\"code\":\"BD\",\"name\":\"Bangladesh\"},{\"code\":\"BB\",\"name\":\"Barbados\"},{\"code\":\"BY\",\"name\":\"Belarus\"},{\"code\":\"BE\",\"name\":\"Belgium\"},{\"code\":\"BZ\",\"name\":\"Belize\"},{\"code\":\"BJ\",\"name\":\"Benin\"},{\"code\":\"BM\",\"name\":\"Bermuda\"},{\"code\":\"BT\",\"name\":\"Bhutan\"},{\"code\":\"BO\",\"name\":\"Bolivia\"},{\"code\":\"BA\",\"name\":\"Bosnia and Herzegovina\"},{\"code\":\"BW\",\"name\":\"Botswana\"},{\"code\":\"BV\",\"name\":\"Bouvet Island\"},{\"code\":\"BR\",\"name\":\"Brazil\"},{\"code\":\"IO\",\"name\":\"British Indian Ocean Territory\"},{\"code\":\"BN\",\"name\":\"Brunei\"},{\"code\":\"BG\",\"name\":\"Bulgaria\"},{\"code\":\"BF\",\"name\":\"Burkina Faso\"},{\"code\":\"BI\",\"name\":\"Burundi\"},{\"code\":\"KH\",\"name\":\"Cambodia\"},{\"code\":\"CM\",\"name\":\"Cameroon\"},{\"code\":\"CA\",\"name\":\"Canada\"},{\"code\":\"CV\",\"name\":\"Cape Verde\"},{\"code\":\"BQ\",\"name\":\"Caribbean Netherlands\"},{\"code\":\"KY\",\"name\":\"Cayman Islands\"},{\"code\":\"CF\",\"name\":\"Central African Republic\"},{\"code\":\"TD\",\"name\":\"Chad\"},{\"code\":\"CL\",\"name\":\"Chile\"},{\"code\":\"CN\",\"name\":\"China\"},{\"code\":\"CX\",\"name\":\"Christmas Island\"},{\"code\":\"CP\",\"name\":\"Clipperton Island\"},{\"code\":\"CC\",\"name\":\"Cocos (Keeling) Islands\"},{\"code\":\"CO\",\"name\":\"Colombia\"},{\"code\":\"KM\",\"name\":\"Comoros\"},{\"code\":\"CG\",\"name\":\"Congo\"},{\"code\":\"CK\",\"name\":\"Cook Islands\"},{\"code\":\"CS\",\"name\":\"Coral Sea Islands\"},{\"code\":\"CR\",\"name\":\"Costa Rica\"},{\"code\":\"CI\",\"name\":\"Côte d'Ivoire\"},{\"code\":\"HR\",\"name\":\"Croatia\"},{\"code\":\"CU\",\"name\":\"Cuba\"},{\"code\":\"CW\",\"name\":\"Curaçao\"},{\"code\":\"CY\",\"name\":\"Cyprus\"},{\"code\":\"CZ\",\"name\":\"Czech Republic\"},{\"code\":\"DK\",\"name\":\"Denmark\"},{\"code\":\"DJ\",\"name\":\"Djibouti\"},{\"code\":\"DM\",\"name\":\"Dominica\"},{\"code\":\"DO\",\"name\":\"Dominican Republic\"},{\"code\":\"CD\",\"name\":\"DR Congo\"},{\"code\":\"EC\",\"name\":\"Ecuador\"},{\"code\":\"EG\",\"name\":\"Egypt\"},{\"code\":\"SV\",\"name\":\"El Salvador\"},{\"code\":\"GQ\",\"name\":\"Equatorial Guinea\"},{\"code\":\"ER\",\"name\":\"Eritrea\"},{\"code\":\"EE\",\"name\":\"Estonia\"},{\"code\":\"ET\",\"name\":\"Ethiopia\"},{\"code\":\"FK\",\"name\":\"Falkland Islands (Malvinas)\"},{\"code\":\"FO\",\"name\":\"Faroe Islands\"},{\"code\":\"FJ\",\"name\":\"Fiji\"},{\"code\":\"FI\",\"name\":\"Finland\"},{\"code\":\"FR\",\"name\":\"France\"},{\"code\":\"GF\",\"name\":\"French Guiana\"},{\"code\":\"PF\",\"name\":\"French Polynesia\"},{\"code\":\"TF\",\"name\":\"French Southern and Antarctic Lands\"},{\"code\":\"GA\",\"name\":\"Gabon\"},{\"code\":\"GM\",\"name\":\"Gambia\"},{\"code\":\"GE\",\"name\":\"Georgia\"},{\"code\":\"DE\",\"name\":\"Germany\"},{\"code\":\"GH\",\"name\":\"Ghana\"},{\"code\":\"GI\",\"name\":\"Gibraltar\"},{\"code\":\"GR\",\"name\":\"Greece\"},{\"code\":\"GL\",\"name\":\"Greenland\"},{\"code\":\"GD\",\"name\":\"Grenada\"},{\"code\":\"GP\",\"name\":\"Guadeloupe\"},{\"code\":\"GU\",\"name\":\"Guam\"},{\"code\":\"GT\",\"name\":\"Guatemala\"},{\"code\":\"GG\",\"name\":\"Guernsey\"},{\"code\":\"GN\",\"name\":\"Guinea\"},{\"code\":\"GW\",\"name\":\"Guinea-Bissau\"},{\"code\":\"GY\",\"name\":\"Guyana\"},{\"code\":\"HT\",\"name\":\"Haiti\"},{\"code\":\"HM\",\"name\":\"Heard Island and McDonald Islands\"},{\"code\":\"XX\",\"name\":\"High Seas\"},{\"code\":\"HN\",\"name\":\"Honduras\"},{\"code\":\"HK\",\"name\":\"Hong Kong\"},{\"code\":\"HU\",\"name\":\"Hungary\"},{\"code\":\"IS\",\"name\":\"Iceland\"},{\"code\":\"IN\",\"name\":\"India\"},{\"code\":\"ID\",\"name\":\"Indonesia\"},{\"code\":\"IR\",\"name\":\"Iran\"},{\"code\":\"IQ\",\"name\":\"Iraq\"},{\"code\":\"IE\",\"name\":\"Ireland\"},{\"code\":\"IM\",\"name\":\"Isle of Man\"},{\"code\":\"IL\",\"name\":\"Israel\"},{\"code\":\"IT\",\"name\":\"Italy\"},{\"code\":\"JM\",\"name\":\"Jamaica\"},{\"code\":\"JP\",\"name\":\"Japan\"},{\"code\":\"JE\",\"name\":\"Jersey\"},{\"code\":\"JO\",\"name\":\"Jordan\"},{\"code\":\"KZ\",\"name\":\"Kazakhstan\"},{\"code\":\"KE\",\"name\":\"Kenya\"},{\"code\":\"KI\",\"name\":\"Kiribati\"},{\"code\":\"XK\",\"name\":\"Kosovo\"},{\"code\":\"KW\",\"name\":\"Kuwait\"},{\"code\":\"KG\",\"name\":\"Kyrgyzstan\"},{\"code\":\"LA\",\"name\":\"Laos\"},{\"code\":\"LV\",\"name\":\"Latvia\"},{\"code\":\"LB\",\"name\":\"Lebanon\"},{\"code\":\"LS\",\"name\":\"Lesotho\"},{\"code\":\"LR\",\"name\":\"Liberia\"},{\"code\":\"LY\",\"name\":\"Libya\"},{\"code\":\"LI\",\"name\":\"Liechtenstein\"},{\"code\":\"LT\",\"name\":\"Lithuania\"},{\"code\":\"LU\",\"name\":\"Luxembourg\"},{\"code\":\"MO\",\"name\":\"Macau\"},{\"code\":\"MK\",\"name\":\"Macedonia\"},{\"code\":\"MG\",\"name\":\"Madagascar\"},{\"code\":\"MW\",\"name\":\"Malawi\"},{\"code\":\"MY\",\"name\":\"Malaysia\"},{\"code\":\"MV\",\"name\":\"Maldives\"},{\"code\":\"ML\",\"name\":\"Mali\"},{\"code\":\"MT\",\"name\":\"Malta\"},{\"code\":\"MH\",\"name\":\"Marshall Islands\"},{\"code\":\"MQ\",\"name\":\"Martinique\"},{\"code\":\"MR\",\"name\":\"Mauritania\"},{\"code\":\"MU\",\"name\":\"Mauritius\"},{\"code\":\"YT\",\"name\":\"Mayotte\"},{\"code\":\"MX\",\"name\":\"Mexico\"},{\"code\":\"FM\",\"name\":\"Micronesia\"},{\"code\":\"MD\",\"name\":\"Moldova\"},{\"code\":\"MC\",\"name\":\"Monaco\"},{\"code\":\"MN\",\"name\":\"Mongolia\"},{\"code\":\"ME\",\"name\":\"Montenegro\"},{\"code\":\"MS\",\"name\":\"Montserrat\"},{\"code\":\"MA\",\"name\":\"Morocco\"},{\"code\":\"MZ\",\"name\":\"Mozambique\"},{\"code\":\"MM\",\"name\":\"Myanmar\"},{\"code\":\"NA\",\"name\":\"Namibia\"},{\"code\":\"NR\",\"name\":\"Nauru\"},{\"code\":\"NP\",\"name\":\"Nepal\"},{\"code\":\"NL\",\"name\":\"Netherlands\"},{\"code\":\"NC\",\"name\":\"New Caledonia\"},{\"code\":\"NZ\",\"name\":\"New Zealand\"},{\"code\":\"NI\",\"name\":\"Nicaragua\"},{\"code\":\"NE\",\"name\":\"Niger\"},{\"code\":\"NG\",\"name\":\"Nigeria\"},{\"code\":\"NU\",\"name\":\"Niue\"},{\"code\":\"NF\",\"name\":\"Norfolk Island\"},{\"code\":\"MP\",\"name\":\"Northern Mariana Islands\"},{\"code\":\"KP\",\"name\":\"North Korea\"},{\"code\":\"NO\",\"name\":\"Norway\"},{\"code\":\"OM\",\"name\":\"Oman\"},{\"code\":\"PK\",\"name\":\"Pakistan\"},{\"code\":\"PW\",\"name\":\"Palau\"},{\"code\":\"PS\",\"name\":\"Palestinian Territory\"},{\"code\":\"PA\",\"name\":\"Panama\"},{\"code\":\"PG\",\"name\":\"Papua New Guinea\"},{\"code\":\"PY\",\"name\":\"Paraguay\"},{\"code\":\"PE\",\"name\":\"Peru\"},{\"code\":\"PH\",\"name\":\"Philippines\"},{\"code\":\"PN\",\"name\":\"Pitcairn Islands\"},{\"code\":\"PL\",\"name\":\"Poland\"},{\"code\":\"PT\",\"name\":\"Portugal\"},{\"code\":\"PR\",\"name\":\"Puerto Rico\"},{\"code\":\"QA\",\"name\":\"Qatar\"},{\"code\":\"RE\",\"name\":\"Réunion\"},{\"code\":\"RO\",\"name\":\"Romania\"},{\"code\":\"RU\",\"name\":\"Russia\"},{\"code\":\"RW\",\"name\":\"Rwanda\"},{\"code\":\"BL\",\"name\":\"Saint Barthélemy\"},{\"code\":\"SH\",\"name\":\"Saint Helena, Ascension, and Tristan da Cunha\"},{\"code\":\"KN\",\"name\":\"Saint Kitts and Nevis\"},{\"code\":\"LC\",\"name\":\"Saint Lucia\"},{\"code\":\"MF\",\"name\":\"Saint Martin (French part)\"},{\"code\":\"PM\",\"name\":\"Saint Pierre and Miquelon\"},{\"code\":\"VC\",\"name\":\"Saint Vincent and the Grenadines\"},{\"code\":\"WS\",\"name\":\"Samoa\"},{\"code\":\"SM\",\"name\":\"San Marino\"},{\"code\":\"ST\",\"name\":\"São Tomé and Príncipe\"},{\"code\":\"SA\",\"name\":\"Saudi Arabia\"},{\"code\":\"SN\",\"name\":\"Senegal\"},{\"code\":\"RS\",\"name\":\"Serbia\"},{\"code\":\"SC\",\"name\":\"Seychelles\"},{\"code\":\"SL\",\"name\":\"Sierra Leone\"},{\"code\":\"SG\",\"name\":\"Singapore\"},{\"code\":\"SX\",\"name\":\"Sint Maarten\"},{\"code\":\"SK\",\"name\":\"Slovakia\"},{\"code\":\"SI\",\"name\":\"Slovenia\"},{\"code\":\"SB\",\"name\":\"Solomon Islands\"},{\"code\":\"SO\",\"name\":\"Somalia\"},{\"code\":\"ZA\",\"name\":\"South Africa\"},{\"code\":\"GS\",\"name\":\"South Georgia and South Sandwich Islands\"},{\"code\":\"KR\",\"name\":\"South Korea\"},{\"code\":\"SS\",\"name\":\"South Sudan\"},{\"code\":\"ES\",\"name\":\"Spain\"},{\"code\":\"LK\",\"name\":\"Sri Lanka\"},{\"code\":\"SD\",\"name\":\"Sudan\"},{\"code\":\"SR\",\"name\":\"Suriname\"},{\"code\":\"SJ\",\"name\":\"Svalbard\"},{\"code\":\"SZ\",\"name\":\"Swaziland\"},{\"code\":\"SE\",\"name\":\"Sweden\"},{\"code\":\"CH\",\"name\":\"Switzerland\"},{\"code\":\"SY\",\"name\":\"Syria\"},{\"code\":\"TW\",\"name\":\"Taiwan\"},{\"code\":\"TJ\",\"name\":\"Tajikistan\"},{\"code\":\"TZ\",\"name\":\"Tanzania\"},{\"code\":\"TH\",\"name\":\"Thailand\"},{\"code\":\"TL\",\"name\":\"Timor-Leste\"},{\"code\":\"TG\",\"name\":\"Togo\"},{\"code\":\"TK\",\"name\":\"Tokelau\"},{\"code\":\"TO\",\"name\":\"Tonga\"},{\"code\":\"TT\",\"name\":\"Trinidad and Tobago\"},{\"code\":\"TN\",\"name\":\"Tunisia\"},{\"code\":\"TR\",\"name\":\"Turkey\"},{\"code\":\"TM\",\"name\":\"Turkmenistan\"},{\"code\":\"TC\",\"name\":\"Turks and Caicos Islands\"},{\"code\":\"TV\",\"name\":\"Tuvalu\"},{\"code\":\"UG\",\"name\":\"Uganda\"},{\"code\":\"UA\",\"name\":\"Ukraine\"},{\"code\":\"AE\",\"name\":\"United Arab Emirates\"},{\"code\":\"GB\",\"name\":\"United Kingdom\"},{\"code\":\"US\",\"name\":\"United States\"},{\"code\":\"UM\",\"name\":\"United States Minor Outlying Islands\"},{\"code\":\"UY\",\"name\":\"Uruguay\"},{\"code\":\"UZ\",\"name\":\"Uzbekistan\"},{\"code\":\"VU\",\"name\":\"Vanuatu\"},{\"code\":\"VA\",\"name\":\"Vatican City (Holy See)\"},{\"code\":\"VE\",\"name\":\"Venezuela\"},{\"code\":\"VN\",\"name\":\"Vietnam\"},{\"code\":\"VG\",\"name\":\"Virgin Islands (British)\"},{\"code\":\"VI\",\"name\":\"Virgin Islands (U.S.)\"},{\"code\":\"WF\",\"name\":\"Wallis and Futuna\"},{\"code\":\"EH\",\"name\":\"Western Sahara\"},{\"code\":\"YE\",\"name\":\"Yemen\"},{\"code\":\"ZM\",\"name\":\"Zambia\"},{\"code\":\"ZW\",\"name\":\"Zimbabwe\"}]"
+						},
+						{
+							"name": "States in US",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-eBirdApiToken",
+										"value": "{{x-ebirdapitoken}}"
+									}
+								],
+								"url": {
+									"raw": "https://{{serverName}}/{{contextRoot}}/ref/region/list/subnational1/US",
+									"protocol": "https",
+									"host": [
+										"{{serverName}}"
+									],
+									"path": [
+										"{{contextRoot}}",
+										"ref",
+										"region",
+										"list",
+										"subnational1",
+										"US"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "cache-control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate",
+									"name": "cache-control",
+									"description": ""
+								},
+								{
+									"key": "content-encoding",
+									"value": "gzip",
+									"name": "content-encoding",
+									"description": ""
+								},
+								{
+									"key": "content-length",
+									"value": "526",
+									"name": "content-length",
+									"description": ""
+								},
+								{
+									"key": "content-type",
+									"value": "application/json;charset=UTF-8",
+									"name": "content-type",
+									"description": ""
+								},
+								{
+									"key": "date",
+									"value": "Fri, 15 Sep 2017 15:11:21 GMT",
+									"name": "date",
+									"description": ""
+								},
+								{
+									"key": "expires",
+									"value": "0",
+									"name": "expires",
+									"description": ""
+								},
+								{
+									"key": "pragma",
+									"value": "no-cache",
+									"name": "pragma",
+									"description": ""
+								},
+								{
+									"key": "server",
+									"value": "Apache-Coyote/1.1",
+									"name": "server",
+									"description": ""
+								},
+								{
+									"key": "x-content-type-options",
+									"value": "nosniff",
+									"name": "x-content-type-options",
+									"description": ""
+								},
+								{
+									"key": "x-frame-options",
+									"value": "DENY",
+									"name": "x-frame-options",
+									"description": ""
+								},
+								{
+									"key": "x-xss-protection",
+									"value": "1; mode=block",
+									"name": "x-xss-protection",
+									"description": ""
+								}
+							],
+							"cookie": [],
+							"body": "[{\"code\":\"US-AL\",\"name\":\"Alabama\"},{\"code\":\"US-AK\",\"name\":\"Alaska\"},{\"code\":\"US-AZ\",\"name\":\"Arizona\"},{\"code\":\"US-AR\",\"name\":\"Arkansas\"},{\"code\":\"US-CA\",\"name\":\"California\"},{\"code\":\"US-CO\",\"name\":\"Colorado\"},{\"code\":\"US-CT\",\"name\":\"Connecticut\"},{\"code\":\"US-DE\",\"name\":\"Delaware\"},{\"code\":\"US-DC\",\"name\":\"District of Columbia\"},{\"code\":\"US-FL\",\"name\":\"Florida\"},{\"code\":\"US-GA\",\"name\":\"Georgia\"},{\"code\":\"US-HI\",\"name\":\"Hawaii\"},{\"code\":\"US-ID\",\"name\":\"Idaho\"},{\"code\":\"US-IL\",\"name\":\"Illinois\"},{\"code\":\"US-IN\",\"name\":\"Indiana\"},{\"code\":\"US-IA\",\"name\":\"Iowa\"},{\"code\":\"US-KS\",\"name\":\"Kansas\"},{\"code\":\"US-KY\",\"name\":\"Kentucky\"},{\"code\":\"US-LA\",\"name\":\"Louisiana\"},{\"code\":\"US-ME\",\"name\":\"Maine\"},{\"code\":\"US-MD\",\"name\":\"Maryland\"},{\"code\":\"US-MA\",\"name\":\"Massachusetts\"},{\"code\":\"US-MI\",\"name\":\"Michigan\"},{\"code\":\"US-MN\",\"name\":\"Minnesota\"},{\"code\":\"US-MS\",\"name\":\"Mississippi\"},{\"code\":\"US-MO\",\"name\":\"Missouri\"},{\"code\":\"US-MT\",\"name\":\"Montana\"},{\"code\":\"US-NE\",\"name\":\"Nebraska\"},{\"code\":\"US-NV\",\"name\":\"Nevada\"},{\"code\":\"US-NH\",\"name\":\"New Hampshire\"},{\"code\":\"US-NJ\",\"name\":\"New Jersey\"},{\"code\":\"US-NM\",\"name\":\"New Mexico\"},{\"code\":\"US-NY\",\"name\":\"New York\"},{\"code\":\"US-NC\",\"name\":\"North Carolina\"},{\"code\":\"US-ND\",\"name\":\"North Dakota\"},{\"code\":\"US-OH\",\"name\":\"Ohio\"},{\"code\":\"US-OK\",\"name\":\"Oklahoma\"},{\"code\":\"US-OR\",\"name\":\"Oregon\"},{\"code\":\"US-PA\",\"name\":\"Pennsylvania\"},{\"code\":\"US-RI\",\"name\":\"Rhode Island\"},{\"code\":\"US-SC\",\"name\":\"South Carolina\"},{\"code\":\"US-SD\",\"name\":\"South Dakota\"},{\"code\":\"US-TN\",\"name\":\"Tennessee\"},{\"code\":\"US-TX\",\"name\":\"Texas\"},{\"code\":\"US-UT\",\"name\":\"Utah\"},{\"code\":\"US-VT\",\"name\":\"Vermont\"},{\"code\":\"US-VA\",\"name\":\"Virginia\"},{\"code\":\"US-WA\",\"name\":\"Washington\"},{\"code\":\"US-WV\",\"name\":\"West Virginia\"},{\"code\":\"US-WI\",\"name\":\"Wisconsin\"},{\"code\":\"US-WY\",\"name\":\"Wyoming\"}]"
+						}
+					]
+				}
+			],
+			"description": "The ref/region end-points return information on regions.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "aa746253-0c68-4762-a66e-13370f44a11b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa222f3a-de1b-4e37-bd24-6a4a2e4d0025",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "12382cfa-6106-4258-a9ea-9ac2f797e7f2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3ad6a085-5406-411d-b58c-9f53e8c93cbd",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
