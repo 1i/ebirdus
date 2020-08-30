@@ -14,26 +14,13 @@ Invoke the Lambda.
 The LogResult is returned in Base64 so will need to be decoded.
 
 
-## Ebird.org
+## Ebird.org API
+
+Excellent bird learning resource provided by Cornell University 
+
+Notable birds vs recent birds
 ```
 curl -v --location --request GET 'https://api.ebird.org/v2/data/obs/IE/recent' \
---header '_X-eBirdApiToken: d4adr470eh9u_'  
+--header '_X-eBirdApiToken: d4adr470eh9u'  
 ```
 Docs [https://documenter.getpostman.com/view/664302/S1ENwy59?version=latest#intro]
-
-### DynamoDB
-
-reference, date, commonName, county, location, count
-Main Table
-
-|Partition Key |Sort Key | other attributes |
-|--------------|---------|------------------|
-|reference     | date    | commonName, county, location, count |
-
-A secondary index to improve the querying for date, county and bird name
-
-|Partition Key |Sort Key | other attributes |
-|--------------|---------|------------------|
-|date          |county   | commonName, location, count, reference|
-
-Improvements can be made by indexing on date and .   
