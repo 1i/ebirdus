@@ -1,9 +1,7 @@
 ## eBirdus
-Retrieve bird sightings from ebird.org APIs  
-Parse the records and save into a DynamoDB and S3  
-Allows for data to be used by other downstream Lambdas
- 
+Retrieve bird sightings from ebird.org APIs for the island of Ireland
 
+ 
 ## How to Build and Deploy
 From parent directory. Build the jar via maven.  
 `mvn clean install`  

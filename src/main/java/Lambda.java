@@ -10,7 +10,7 @@ public class Lambda {
 
         EbirdClient ebirdClient = new EbirdClient();
 
-        List<Sighting> results = ebirdClient.getRecentSighting(LocalDate.now().minusDays(1));
+        List<EbirdModel> results = ebirdClient.getRecentSighting(LocalDate.now().minusDays(1));
 
 
         if(results.size()>0) {

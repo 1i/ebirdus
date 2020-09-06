@@ -1,22 +1,29 @@
 import com.amazonaws.services.lambda.runtime.Context;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URI;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Properties;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
+@Slf4j
 public class Tests {
 
     ObjectMapper objectMapper = new ObjectMapper();
     File EBIRD_FILE = new File(getClass().getClassLoader().getResource("ebird.json").getFile());
+
+    private LocalDate YESTERDAY = LocalDate.now().minusDays(1);
+    private LocalDate TWODAYSAGO = LocalDate.now().minusDays(2);
+    private LocalDate LAST_WEEK = LocalDate.now().minusDays(7);
 
     @Test
     void getLocalFile() throws Exception{
@@ -28,63 +35,49 @@ public class Tests {
     void transformerTest()throws Exception{
 
         List<EbirdModel> models = objectMapper.readValue(EBIRD_FILE, new TypeReference<List<EbirdModel>>(){});
-        Sighting sighting = ModelTransformer.transform(models.get(0));
+        EbirdModel sighting = models.get(0);
 
         assertEquals("Willow Warbler", sighting.getCommonName());
         assertEquals("Phylloscopus trochilus", sighting.getScientificName());
         assertEquals("Tolka Valley Park", sighting.getLocation());
         assertEquals("2020-08-26", sighting.getDate());
         assertEquals("5", sighting.getCount());
-        assertEquals(null, sighting.getPhoto());
-        assertEquals(null, sighting.getCounty());
-        System.out.println(sighting);
-
-
-        List<Sighting> sightings = ModelTransformer.transformList(models);
-        assertEquals(162,sightings.size());
-        Sighting sightingFromList = sightings.get(0);
-        assertEquals("Willow Warbler", sightingFromList.getCommonName());
-        assertEquals("Phylloscopus trochilus", sightingFromList.getScientificName());
-        assertEquals("Tolka Valley Park", sightingFromList.getLocation());
-        assertEquals("2020-08-26", sightingFromList.getDate());
-        assertEquals("5", sightingFromList.getCount());
-        assertEquals(null, sightingFromList.getPhoto());
-        assertEquals(null, sightingFromList.getCounty());
-
+        assertTrue(sighting.getLat().contains("53"));
+        assertTrue(sighting.getLng().contains("-6"));
+        assertEquals(162,models.size());
     }
 
     @Test
     void dateOffsetTest(){
-
-        int dateOffset = LocalDate.now().minusDays(1).compareTo(LocalDate.now());
+        int dateOffset = YESTERDAY.compareTo(LocalDate.now());
         assertEquals(1,dateOffset*-1);
     }
 
     @Test
     void getLastWeeksRequestyTest() throws Exception {
         EbirdClient ebirdClient = new EbirdClient();
-        URL request = ebirdClient.getRequest(LocalDate.now().minusDays(7), false);
+        URL request = ebirdClient.getRequest(LAST_WEEK, false, location);
         System.out.println(request);
     }
 
     @Test
     void getYesterdaysRequestTest()throws Exception {
         EbirdClient ebirdClient = new EbirdClient();
-        URL request = ebirdClient.getRequest(LocalDate.now().minusDays(1), false);
+        URL request = ebirdClient.getRequest(YESTERDAY, false, location);
         System.out.println(request);
     }
 
     @Test
     void getHotSpotRequestTest()throws Exception {
         EbirdClient ebirdClient = new EbirdClient();
-        URL request = ebirdClient.getRequest(LocalDate.now().minusDays(1), true);
+        URL request = ebirdClient.getRequest(YESTERDAY, true, location);
         System.out.println(request);
     }
 
     @Test
     void getRequestYesterdayHotSpotTest()throws Exception {
         EbirdClient ebirdClient = new EbirdClient();
-        URL request = ebirdClient.getRequest(LocalDate.now().minusDays(1), true);
+        URL request = ebirdClient.getRequest(YESTERDAY, true, location);
         System.out.println(request);
     }
 
@@ -92,5 +85,29 @@ public class Tests {
     void lambdaTest(){
         Lambda lambda = new Lambda();
         lambda.handler(Mockito.mock(Context.class));
+    }
+
+    @Test
+    void propertiesTest() throws Exception{
+        String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
+        String appConfigPath = rootPath + "counties.properties";
+
+        Properties appProps = new Properties();
+        appProps.load(new FileInputStream(appConfigPath));
+
+        assertEquals("IE-C-MO",appProps.get("Mayo"));
+
+    }
+
+    @Test
+    void getNotable(){
+        List<EbirdModel> recentSighting = EbirdClient.getRecentSighting(YESTERDAY);
+        log.info(" ",recentSighting.get(0));
+        log.info(recentSighting.get(0).toString());
+    }
+
+    @Test
+    void getRecentBirdsInKerry(){
+        EbirdClient.getRequestForLocation(LAST_WEEK,"kerry");
     }
 }

@@ -1,7 +1,9 @@
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -9,16 +11,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Properties;
 
+@Slf4j
 public class EbirdClient {
 
+    @SneakyThrows
     public EbirdClient() {
+        appProps.load(new FileInputStream(appConfigPath));
     }
-    ObjectMapper objectMapper = new ObjectMapper();
+    private static ObjectMapper objectMapper = new ObjectMapper();
+    String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
+    String appConfigPath = rootPath + "counties.properties";
 
-    public List<Sighting> getRecentSighting(LocalDate date) {
+    static Properties appProps = new Properties();
 
-        URL url = getRequest(date,true);
+
+    public static List<EbirdModel> getRecentSighting(LocalDate date) {
+
+        URL url = getRequest(date,true, null);
         List<EbirdModel> ebirdModels = null;
         try {
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -34,14 +45,18 @@ public class EbirdClient {
         }
 
         if(ebirdModels != null){
-            return ModelTransformer.transformList(ebirdModels);
+            return ebirdModels;
         }
         throw new NullPointerException();
     }
 
     @SneakyThrows
-    public URL getRequest(LocalDate date, Boolean hotspot) {
-        String uri = "https://api.ebird.org/v2/data/obs/IE/recent";
+    public static URL getRequest(LocalDate date, Boolean hotspot, String location) {
+        if(location != null || location.isEmpty()){
+            location = "IE";
+        }
+        String uri = "https://api.ebird.org/v2/data/obs/"+location+"/recent";
+        log.info("Request {}", uri);
         int dateOffset = LocalDate.now().compareTo(date);
         if(dateOffset == 0){
             throw new IllegalArgumentException("Date must be in  the past 1 - 30 days.");
@@ -56,5 +71,11 @@ public class EbirdClient {
             e.printStackTrace();
         }
         throw new IOException("Uri Error");
+    }
+
+    public static void getRequestForLocation(LocalDate last_week, String location) {
+
+        String locationCode = appProps.getProperty(location);
+        getRequest(last_week,true,locationCode);
     }
 }
