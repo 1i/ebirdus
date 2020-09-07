@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Properties;
 
@@ -24,6 +25,7 @@ public class Tests {
     private LocalDate YESTERDAY = LocalDate.now().minusDays(1);
     private LocalDate TWODAYSAGO = LocalDate.now().minusDays(2);
     private LocalDate LAST_WEEK = LocalDate.now().minusDays(7);
+    private String location = "kerry";
 
     @Test
     void getLocalFile() throws Exception{
@@ -49,8 +51,9 @@ public class Tests {
 
     @Test
     void dateOffsetTest(){
-        int dateOffset = YESTERDAY.compareTo(LocalDate.now());
-        assertEquals(1,dateOffset*-1);
+        assertEquals(1,Period.between(YESTERDAY,LocalDate.now()).getDays());
+        assertEquals(7,Period.between(LAST_WEEK,LocalDate.now()).getDays());
+        assertEquals(10, Period.between(LocalDate.now().minusDays(10),LocalDate.now()).getDays());
     }
 
     @Test
@@ -108,6 +111,11 @@ public class Tests {
 
     @Test
     void getRecentBirdsInKerry(){
-        EbirdClient.getRequestForLocation(LAST_WEEK,"kerry");
+        assertEquals("IE-M-KY",EbirdClient.getLocationCode("Kerry"));
+        assertEquals("GB-NIR-DOW",EbirdClient.getLocationCode("down"));
+
+        URL request = EbirdClient.getRequestForLocation(LAST_WEEK, "Kerry");
+        System.out.println(request);
+        assertTrue(request.toString().contains("KY"));
     }
 }
