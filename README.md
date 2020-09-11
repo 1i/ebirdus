@@ -10,7 +10,7 @@ Retrieve bird sightings from ebird.org APIs for the island of Ireland
 ## How to Build and Deploy
 From parent directory. Build the jar via maven.  
 `mvn clean install`  
-Update existing the com.onei.ebirdus.Lambda with the new jar.  
+Update existing the Lambda with the new jar.  
 `aws lambda update-function-code --function-name ebirdus --zip fileb://./target/ebirdus-1.0-SNAPSHOT.jar`  
 Invoke the Lambda remotely.  
 `aws lambda invoke --function-name ebirdus --log-type Tail outfile`  
@@ -19,11 +19,11 @@ The LogResult is returned in Base64 so will need to be decoded.
 
 ## Ebird.org API
 
-Excellent bird learning resource provided by Cornell University 
+Excellent bird learning resource provided by Cornell University USA  
 
-Notable birds vs recent birds
+Notable birds
 ```
-curl "https://api.ebird.org/v2/data/obs/IE/recent?back=1" -H "X-eBirdApiToken: d4adr470eh9u"  
+curl "https://api.ebird.org/v2/data/obs/IE/recent/notable?back=1" -H "X-eBirdApiToken: d4adr470eh9u"  
 ```
 Docs [https://documenter.getpostman.com/view/664302/S1ENwy59?version=latest#intro]  
 Postman collection in test resources.
