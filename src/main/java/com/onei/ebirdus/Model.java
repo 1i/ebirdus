@@ -7,13 +7,11 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class Model {
 
     private String subId;
-    @JsonDeserialize(converter = DateSplitter.class)
 
     @JsonProperty("obsDt")
     private String date;
