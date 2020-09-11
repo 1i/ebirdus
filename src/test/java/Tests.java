@@ -24,18 +24,20 @@ public class Tests {
     private LocalDate YESTERDAY = LocalDate.now().minusDays(1);
     private LocalDate TWODAYSAGO = LocalDate.now().minusDays(2);
     private LocalDate LAST_WEEK = LocalDate.now().minusDays(7);
-    private String location = "kerry";
+    private String THE_KINGDOM = "kerry";
+    private String REAL_REPUBLIC = "CORK";
     private String IRELAND_CODE = "IE";
+    private String IRELAND = "IRELAND";
 
     @Test
-    void getLocalFile() throws Exception{
+    void getLocalFile() throws Exception {
         List<Model> models = objectMapper.readValue(EBIRD_FILE, new TypeReference<List<Model>>() {
         });
-        assertEquals(162,models.size());
+        assertEquals(162, models.size());
     }
 
     @Test
-    void transformerTest()throws Exception{
+    void transformerTest() throws Exception {
 
         List<Model> models = objectMapper.readValue(EBIRD_FILE, new TypeReference<List<Model>>() {
         });
@@ -48,69 +50,49 @@ public class Tests {
         assertEquals("5", sighting.getCount());
         assertTrue(sighting.getLat().contains("53"));
         assertTrue(sighting.getLng().contains("-6"));
-        assertEquals(162,models.size());
+        assertEquals(162, models.size());
     }
 
     @Test
-    void dateOffsetTest(){
-        assertEquals(1,Period.between(YESTERDAY,LocalDate.now()).getDays());
-        assertEquals(7,Period.between(LAST_WEEK,LocalDate.now()).getDays());
-        assertEquals(10, Period.between(LocalDate.now().minusDays(10),LocalDate.now()).getDays());
+    void dateOffsetTest() {
+        assertEquals(1, Period.between(YESTERDAY, LocalDate.now()).getDays());
+        assertEquals(7, Period.between(LAST_WEEK, LocalDate.now()).getDays());
+        assertEquals(10, Period.between(LocalDate.now().minusDays(10), LocalDate.now()).getDays());
     }
 
     @Test
-    void getLastWeeksRequestyTest() throws Exception {
-        URL request = EbirdClient.getRequestURL(LAST_WEEK, false, location);
-        System.out.println(request);
+    void getRequestYesterdayHotSpotTest() throws Exception {
+        URL request = EbirdClient.getRequestURL(YESTERDAY, true, THE_KINGDOM);
+        assertTrue(request.toString().contains("hotspot=true"));
     }
 
     @Test
-    void getYesterdaysRequestTest()throws Exception {
-        URL request = EbirdClient.getRequestURL(YESTERDAY, false, location);
-        System.out.println(request);
-    }
-
-    @Test
-    void getHotSpotRequestTest()throws Exception {
-        URL request = EbirdClient.getRequestURL(YESTERDAY, true, location);
-        System.out.println(request);
-    }
-
-    @Test
-    void getRequestYesterdayHotSpotTest()throws Exception {
-        URL request = EbirdClient.getRequestURL(YESTERDAY, true, location);
-        System.out.println(request);
-    }
-
-
-    @Test
-    void propertiesTest() throws Exception{
+    void propertiesTest() throws Exception {
         String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
         String appConfigPath = rootPath + "counties.properties";
-
         Properties appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
-        assertEquals("IE-C-MO",appProps.get("Mayo"));
+        assertEquals("IE-C-MO", appProps.get("mayo"));
     }
 
     @Test
-    void getRecentBirdsInKerry(){
-        URL request = EbirdClient.getRequestForLocation(LAST_WEEK, "Kerry");
+    void getRecentBirdsInKerry() {
+        URL request = EbirdClient.getRequestForLocation(LAST_WEEK, THE_KINGDOM);
         assertTrue(request.toString().contains("KY"));
         assertTrue(request.toString().contains("back=7"));
     }
 
     @Test
     void getRecentBirds() {
-        String recentSighting = EbirdClient.getResults(LocalDate.now().minusDays(1));
+        String recentSighting = EbirdClient.getResults(YESTERDAY, IRELAND);
         System.out.println(recentSighting);
+        assertTrue(recentSighting.contains(IRELAND));
     }
 
     @Test
     void getNotableUrl() {
-        URL request = EbirdClient.getNotableSightings(YESTERDAY, IRELAND_CODE);
+        URL request = EbirdClient.getNotableURL(YESTERDAY, IRELAND_CODE);
         assertTrue(request.toString().contains(IRELAND_CODE));
         assertTrue(request.toString().contains("/recent/notable"));
-
     }
 }
