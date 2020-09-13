@@ -26,8 +26,6 @@ public class DateIntentHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        log.debug("DateIntent");
-
         Request request = input.getRequestEnvelope().getRequest();
         IntentRequest intentRequest = (IntentRequest) request;
         Map<String, Slot> slots = intentRequest.getIntent().getSlots();
@@ -35,8 +33,7 @@ public class DateIntentHandler implements RequestHandler {
         String dateValue = (date != null) ? date.getValue() : "null";
         log.debug("dateValue " + dateValue);
         log.debug("slot  " + date);
-        EbirdClient.getRequestURL(Utils.formatDate(dateValue), true, "IE");
-        String results = "birdusS3Client.getResultsForDate(com.onei.ebirdus.Utils.formatDate(dateValue))";
+        String results = EbirdClient.getResults(Utils.formatDate(dateValue), "Ireland");
         return input.getResponseBuilder()
                 .withSpeech(results)
                 .withSimpleCard("Results for " + dateValue, results)

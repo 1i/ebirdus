@@ -8,6 +8,8 @@ import com.amazon.ask.model.Request;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
+import com.onei.ebirdus.EbirdClient;
+import com.onei.ebirdus.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -43,7 +45,7 @@ public class LocationDateIntentHandler implements RequestHandler {
         log.debug("Day " + day);
         log.debug("Request " + request);
 
-        String results = "birdusS3Client.getResultsForCountyByDay(countyValue,com.onei.ebirdus.Utils.getDateFromDay(dayValue))";
+        String results = EbirdClient.getResults(Utils.getDateFromDay(dayValue),countyValue);
 
         return input.getResponseBuilder()
                 .withSpeech(results)

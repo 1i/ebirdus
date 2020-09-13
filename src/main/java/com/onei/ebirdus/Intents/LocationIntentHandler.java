@@ -8,8 +8,10 @@ import com.amazon.ask.model.Request;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
+import com.onei.ebirdus.EbirdClient;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
 
@@ -33,10 +35,11 @@ public class LocationIntentHandler implements RequestHandler {
         log.debug("county " + county);
         log.debug("slot County " + slotCounty);
         Request request = input.getRequest();
-        //String county = (String) input.getAttributesManager().getSessionAttributes().get("county");
+        String sessionAtt = (String) input.getAttributesManager().getSessionAttributes().get("county");
+        log.debug("Session " + sessionAtt);
         log.debug("County " + county);
         log.debug("Request " + request);
-        String results = "birdusS3Client.getResultsForCounty(county)";
+        String results = EbirdClient.getResults(LocalDate.now().minusDays(7),county);
 
         return input.getResponseBuilder()
                 .withSpeech(results)
