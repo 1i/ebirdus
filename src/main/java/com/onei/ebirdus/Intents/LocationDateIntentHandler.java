@@ -1,6 +1,5 @@
 package com.onei.ebirdus.Intents;
 
-
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.IntentRequest;
@@ -21,14 +20,12 @@ public class LocationDateIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-
         return input.matches(Predicates.intentName("LocationDateIntent"));
     }
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        Request request1 = input.getRequestEnvelope().getRequest();
-        IntentRequest intentRequest = (IntentRequest) request1;
+        IntentRequest intentRequest = (IntentRequest) input.getRequestEnvelope().getRequest();
         Map<String, Slot> slots = intentRequest.getIntent().getSlots();
         Slot slotCounty = slots.get("county");
         Slot slotDay = slots.get("day");
@@ -45,7 +42,7 @@ public class LocationDateIntentHandler implements RequestHandler {
         log.debug("Day " + day);
         log.debug("Request " + request);
 
-        String results = EbirdClient.getResults(Utils.getDateFromDay(dayValue),countyValue);
+        String results = EbirdClient.getResults(Utils.getDateFromDay(dayValue), countyValue);
 
         return input.getResponseBuilder()
                 .withSpeech(results)
