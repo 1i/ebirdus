@@ -1,3 +1,7 @@
+import com.amazonaws.auth.AWSCredentialsProvider;
+import com.amazonaws.auth.AWSCredentialsProviderChain;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambdaAsync;
 import com.amazonaws.services.lambda.AWSLambdaAsyncClientBuilder;
 import com.amazonaws.services.lambda.model.InvokeRequest;
@@ -109,7 +113,10 @@ public class Tests {
         InvokeRequest invokeRequest = new InvokeRequest()
                 .withFunctionName(functionName)
                 .withPayload(inputJSON);
-        AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.defaultClient();
+        AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.standard()
+                .withCredentials(new DefaultAWSCredentialsProviderChain())
+                .withRegion(Regions.EU_WEST_1)
+                .build();
 
         awsLambdaAsync.invoke(invokeRequest);
     }
