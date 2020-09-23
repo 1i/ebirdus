@@ -27,7 +27,7 @@ public class EbirdClient {
     private static String IRELAND_CODE = "IE";
 
     private static List<Model> doRequest(URL url) {
-        log.debug("Request");
+        log.debug("Start Request");
         List<Model> models = null;
         try {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -37,7 +37,7 @@ public class EbirdClient {
 
             models = objectMapper.readValue(new InputStreamReader(con.getInputStream()), new TypeReference<List<Model>>() {
             });
-            log.debug("Finish request");
+            log.debug("Finish request {}", models.size());
             con.disconnect();
         } catch (IOException e) {
             log.error("Connection error");
@@ -76,7 +76,7 @@ public class EbirdClient {
         String[] split = request.toString().split("recent/");
         try {
             URL url = new URL(split[0] + "recent/notable" + split[1]);
-            log.info("Request {}", url);
+            log.info("Request url {}", url);
             return url;
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -85,7 +85,6 @@ public class EbirdClient {
     }
 
     public static URL getRequestForLocation(LocalDate last_week, String location) {
-
         String locationCode = getLocationCode(location);
         return getRequestURL(last_week, true, locationCode);
     }
