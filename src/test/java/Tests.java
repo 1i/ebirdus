@@ -1,3 +1,6 @@
+import com.amazonaws.services.lambda.AWSLambdaAsync;
+import com.amazonaws.services.lambda.AWSLambdaAsyncClientBuilder;
+import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onei.ebirdus.EbirdClient;
@@ -95,5 +98,19 @@ public class Tests {
         URL request = EbirdClient.getNotableURL(YESTERDAY, IRELAND_CODE);
         assertTrue(request.toString().contains(IRELAND_CODE));
         assertTrue(request.toString().contains("/recent/notable"));
+    }
+
+    @Test
+    void invokeLambda(){
+        String functionName = "ebirdus";
+
+        String inputJSON = "{\"test\":\"value\",\"key\": \"value\"}";
+
+        InvokeRequest invokeRequest = new InvokeRequest()
+                .withFunctionName(functionName)
+                .withPayload(inputJSON);
+        AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.defaultClient();
+
+        awsLambdaAsync.invoke(invokeRequest);
     }
 }
