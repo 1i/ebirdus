@@ -7,7 +7,7 @@ import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class LaunchRequestHandler implements RequestHandler {
@@ -19,14 +19,11 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String speechText = "LaunchRequest";
-
-
-        List<Model> recentSighting = EbirdClient.getDefaultRequest();
+        String results = EbirdClient.getResults(LocalDate.now().minusDays(7), "Ireland");
 
         return input.getResponseBuilder()
-                .withSpeech(speechText)
-                .withSimpleCard(speechText, speechText)
+                .withSpeech(results)
+                .withSimpleCard("Results for last week in Ireland ", results)
                 .build();
     }
 

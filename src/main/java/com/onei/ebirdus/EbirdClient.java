@@ -23,11 +23,11 @@ public class EbirdClient {
     private static ObjectMapper objectMapper = new ObjectMapper();
     private static String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
     private static String appConfigPath = rootPath + "counties.properties";
-    private static StringBuilder stringBuilder = new StringBuilder();
     private static Properties appProps = new Properties();
     private static String IRELAND_CODE = "IE";
 
     private static List<Model> doRequest(URL url) {
+        log.debug("Request");
         List<Model> models = null;
         try {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -37,15 +37,17 @@ public class EbirdClient {
 
             models = objectMapper.readValue(new InputStreamReader(con.getInputStream()), new TypeReference<List<Model>>() {
             });
-
+            log.debug("Finish request");
             con.disconnect();
         } catch (IOException e) {
+            log.error("Connection error");
             e.printStackTrace();
         }
 
         if (models != null) {
             return models;
         }
+        log.error("Connection error");
         throw new NullPointerException();
     }
 
@@ -105,6 +107,8 @@ public class EbirdClient {
 
 
     public static String getResults(LocalDate date, String location) {
+        log.debug("Get results for {} on {}", location, date);
+        StringBuilder stringBuilder = new StringBuilder();
 
         String locationCode = getLocationCode(location);
         List<Model> models = doRequest(getNotableURL(date, locationCode));

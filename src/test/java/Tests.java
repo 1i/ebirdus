@@ -84,6 +84,7 @@ public class Tests {
 
     @Test
     void getRecentBirds() {
+        EbirdClient.getResults(YESTERDAY, IRELAND);
         String recentSighting = EbirdClient.getResults(YESTERDAY, IRELAND);
         System.out.println(recentSighting);
         assertTrue(recentSighting.contains(IRELAND));
