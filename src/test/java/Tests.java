@@ -1,10 +1,9 @@
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambdaAsync;
 import com.amazonaws.services.lambda.AWSLambdaAsyncClientBuilder;
 import com.amazonaws.services.lambda.model.InvokeRequest;
+import com.amazonaws.services.lambda.model.InvokeResult;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onei.ebirdus.EbirdClient;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
+import java.nio.ByteBuffer;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -26,15 +26,15 @@ import static junit.framework.Assert.assertTrue;
 @Slf4j
 public class Tests {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private File EBIRD_FILE = new File(getClass().getClassLoader().getResource("ebird.json").getFile());
-    private LocalDate YESTERDAY = LocalDate.now().minusDays(1);
-    private LocalDate TWODAYSAGO = LocalDate.now().minusDays(2);
-    private LocalDate LAST_WEEK = LocalDate.now().minusDays(7);
-    private String THE_KINGDOM = "kerry";
-    private String REAL_REPUBLIC = "CORK";
-    private String IRELAND_CODE = "IE";
-    private String IRELAND = "IRELAND";
+    private final LocalDate YESTERDAY = LocalDate.now().minusDays(1);
+    private final LocalDate TWODAYSAGO = LocalDate.now().minusDays(2);
+    private final LocalDate LAST_WEEK = LocalDate.now().minusDays(7);
+    private final String THE_KINGDOM = "kerry";
+    private final String REAL_REPUBLIC = "CORK";
+    private final String IRELAND_CODE = "IE";
+    private final String IRELAND = "IRELAND";
 
     @Test
     void getLocalFile() throws Exception {
@@ -68,7 +68,7 @@ public class Tests {
     }
 
     @Test
-    void getRequestYesterdayHotSpotTest() throws Exception {
+    void getRequestYesterdayHotSpotTest() {
         URL request = EbirdClient.getRequestURL(YESTERDAY, true, THE_KINGDOM);
         assertTrue(request.toString().contains("hotspot=true"));
     }
@@ -105,7 +105,7 @@ public class Tests {
     }
 
     @Test
-    void invokeLambda(){
+    void invokeLambda() {
         String functionName = "ebirdus";
 
         String inputJSON = "{\"test\":\"value\",\"key\": \"value\"}";
@@ -118,6 +118,11 @@ public class Tests {
                 .withRegion(Regions.EU_WEST_1)
                 .build();
 
-        awsLambdaAsync.invoke(invokeRequest);
+        InvokeResult result = awsLambdaAsync.invoke(invokeRequest);
+
+        ByteBuffer payload = result.getPayload();
+        String output = new String(payload.array());
+        log.info("output {}", output);
+
     }
 }
