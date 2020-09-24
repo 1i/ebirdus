@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.time.LocalDate;
@@ -105,14 +107,25 @@ public class Tests {
     }
 
     @Test
-    void invokeLambda() {
-        String functionName = "ebirdus";
+    void invokeLambda() throws Exception {
+        String functionName = "arn:aws:lambda:eu-west-1:585889682825:function:ebirdus";
 
+        InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("launchRequest.json");
+        ByteBuffer byteBuffer = ByteBuffer.allocate(1000);
+        while (resourceAsStream.available() > 0) {
+            byteBuffer.put((byte) resourceAsStream.read());
+        }
         String inputJSON = "{\"test\":\"value\",\"key\": \"value\"}";
+        URI launchRequest = this.getClass().getClassLoader().getResource("launchRequest.json").toURI();
+        Object spayload = objectMapper.readValue(new File(launchRequest), Object.class);
 
+
+        String ascii = new String(byteBuffer.array(), "UTF-8");
+        System.out.println(ascii);
+        System.out.println(spayload);
         InvokeRequest invokeRequest = new InvokeRequest()
                 .withFunctionName(functionName)
-                .withPayload(inputJSON);
+                .withPayload(objectMapper.writeValueAsString(spayload));
         AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.standard()
                 .withCredentials(new DefaultAWSCredentialsProviderChain())
                 .withRegion(Regions.EU_WEST_1)
@@ -123,6 +136,9 @@ public class Tests {
         ByteBuffer payload = result.getPayload();
         String output = new String(payload.array());
         log.info("output {}", output);
+        String[] split = output.split("<speak>");
+        assertTrue(split[1].contains("In Ireland"));
+        log.info("Spoken {}", split[1]);
 
     }
 }
