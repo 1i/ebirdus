@@ -9,6 +9,7 @@ import java.time.format.DateTimeParseException;
 @Slf4j
 public class Utils {
 
+    public final static int numberOfDays = 2;
     public static LocalDate getDateFromDay(String input) {
         DayOfWeek today = LocalDate.now().getDayOfWeek();
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(input.toUpperCase());
