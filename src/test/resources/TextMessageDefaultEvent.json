@@ -1,0 +1,101 @@
+{
+  "event": {
+    "header": {
+      "namespace": "Text",
+      "name": "TextMessage",
+      "messageId": "messageId",
+      "dialogRequestId": "0b55c42e-e15f-46cb-b509-481acdefdd47"
+    },
+    "payload": {
+      "textMessage": "alexa open birdie sightings"
+    }
+  },
+  "context": [
+    {
+      "header": {
+        "namespace": "System",
+        "name": "SettingsState",
+        "payloadVersion": "1"
+      },
+      "payload": {
+        "settings": [
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.experiences",
+            "value": "[{\"arcMinuteWidth\":\"246\",\"arcMinuteHeight\":\"144\",\"canRotate\":\"false\",\"canResize\":\"false\"}]"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.shape",
+            "value": "RECTANGLE"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.pixelWidth",
+            "value": "960"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.pixelHeight",
+            "value": "600"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.dpi",
+            "value": "213"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.currentPixelWidth",
+            "value": "960"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.currentPixelHeight",
+            "value": "600"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.touch",
+            "value": "[\"SINGLE\"]"
+          },
+          {
+            "key": "com.amazon.alexa.characteristics.viewport.video",
+            "value": "{\"codecs\": [\"H_264_42\",\"H_264_41\"]}"
+          }
+        ]
+      }
+    },
+    {
+      "header": {
+        "namespace": "SpeechSynthesizer",
+        "name": "SpeechState"
+      },
+      "payload": {
+        "token": "",
+        "offsetInMilliseconds": 0,
+        "playerActivity": "PLAYING"
+      }
+    },
+    {
+      "header": {
+        "namespace": "AudioPlayer",
+        "name": "PlaybackState"
+      },
+      "payload": {
+        "token": "",
+        "offsetInMilliseconds": 0,
+        "playerActivity": "IDLE"
+      }
+    },
+    {
+      "header": {
+        "namespace": "Alerts",
+        "name": "AlertsState"
+      },
+      "payload": {
+        "activeAlerts": [],
+        "allAlerts": []
+      }
+    },
+    {
+      "header": {
+        "namespace": "AudioFocusManager",
+        "name": "AudioFocusState"
+      },
+      "payload": {}
+    }
+  ]
+}
