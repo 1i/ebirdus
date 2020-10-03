@@ -2,6 +2,7 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambdaAsync;
 import com.amazonaws.services.lambda.AWSLambdaAsyncClientBuilder;
+import com.amazonaws.services.lambda.model.InvocationType;
 import com.amazonaws.services.lambda.model.InvokeRequest;
 import com.amazonaws.services.lambda.model.InvokeResult;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,6 +38,12 @@ public class Tests {
     private final String REAL_REPUBLIC = "CORK";
     private final String IRELAND_CODE = "IE";
     private final String IRELAND = "IRELAND";
+    AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.standard()
+            .withCredentials(new DefaultAWSCredentialsProviderChain())
+            .withRegion(Regions.EU_WEST_1)
+            .build();
+    String functionName = "arn:aws:lambda:eu-west-1:585889682825:function:ebirdus";
+
 
     @Test
     void getLocalFile() throws Exception {
@@ -84,6 +91,15 @@ public class Tests {
         assertEquals("IE-C-MO", appProps.get("mayo"));
     }
 
+
+    void spacesInNamepropertiesTest() throws Exception {
+        String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
+        String appConfigPath = rootPath + "counties.properties";
+        Properties appProps = new Properties();
+        appProps.load(new FileInputStream(appConfigPath));
+        assertEquals("IE-L-WH", appProps.get("west meath"));
+    }
+
     @Test
     void getRecentBirdsInKerry() {
         URL request = EbirdClient.getRequestForLocation(LAST_WEEK, THE_KINGDOM);
@@ -108,7 +124,6 @@ public class Tests {
 
     @Test
     void invokeLambda() throws Exception {
-        String functionName = "arn:aws:lambda:eu-west-1:585889682825:function:ebirdus";
 
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("launchRequest.json");
         ByteBuffer byteBuffer = ByteBuffer.allocate(1000);
@@ -121,24 +136,40 @@ public class Tests {
 
 
         String ascii = new String(byteBuffer.array(), "UTF-8");
-        System.out.println(ascii);
-        System.out.println(spayload);
         InvokeRequest invokeRequest = new InvokeRequest()
                 .withFunctionName(functionName)
                 .withPayload(objectMapper.writeValueAsString(spayload));
-        AWSLambdaAsync awsLambdaAsync = AWSLambdaAsyncClientBuilder.standard()
-                .withCredentials(new DefaultAWSCredentialsProviderChain())
-                .withRegion(Regions.EU_WEST_1)
-                .build();
+
 
         InvokeResult result = awsLambdaAsync.invoke(invokeRequest);
 
-        ByteBuffer payload = result.getPayload();
-        String output = new String(payload.array());
+        ByteBuffer resultPayload = result.getPayload();
+        String output = new String(resultPayload.array());
         log.info("output {}", output);
         String[] split = output.split("<speak>");
         assertTrue(split[1].contains("In Ireland"));
         log.info("Spoken {}", split[1]);
 
+    }
+
+    @Test
+    void invokeRequest() throws Exception {
+
+        String inputJSON = "{\"test\":\"value\",\"key\": \"value\"}";
+        URI launchRequest = this.getClass().getClassLoader().getResource("TextMessageDefaultEvent.json").toURI();
+        Object payload = objectMapper.readValue(new File(launchRequest), Object.class);
+        InvokeRequest invokeRequest = new InvokeRequest()
+                .withFunctionName(functionName)
+                .withInvocationType(InvocationType.Event)
+                .withPayload(objectMapper.writeValueAsString(payload));
+
+
+        InvokeResult result = awsLambdaAsync.invoke(invokeRequest);
+        ByteBuffer resultPayload = result.getPayload();
+        String output = new String(resultPayload.array());
+        log.info("output {}", output);
+        String[] split = output.split("<speak>");
+        assertTrue(split[1].contains("In Ireland"));
+        log.info("Spoken {}", split[1]);
     }
 }
