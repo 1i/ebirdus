@@ -20,7 +20,7 @@ public class DateIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        log.debug("input", input);
+        log.debug("input", input.toString());
         return input.matches(Predicates.intentName("dateIntent"));
     }
 

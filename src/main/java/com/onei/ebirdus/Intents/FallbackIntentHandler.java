@@ -17,6 +17,7 @@ public class FallbackIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
+        log.debug("input", input.toString());
         return input.matches(intentName("AMAZON.FallbackIntent"));
     }
 
@@ -24,7 +25,7 @@ public class FallbackIntentHandler implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         log.debug("Input {}", input);
         String speechText = "Did you want the sightings for yesterday? If not ask for Help. ";
-        String results = EbirdClient.getResults(LocalDate.now().minusDays(7),"Ireland");
+        String results = EbirdClient.getResults(LocalDate.now().minusDays(Utils.numberOfDays), "Ireland");
         return input.getResponseBuilder()
                 .withSpeech(speechText + results)
                 .withSimpleCard("Need Help?", speechText + results)

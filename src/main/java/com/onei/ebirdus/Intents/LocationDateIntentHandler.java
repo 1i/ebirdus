@@ -20,6 +20,7 @@ public class LocationDateIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
+        log.debug("input", input.toString());
         return input.matches(Predicates.intentName("LocationDateIntent"));
     }
 
@@ -46,7 +47,7 @@ public class LocationDateIntentHandler implements RequestHandler {
 
         return input.getResponseBuilder()
                 .withSpeech(results)
-                .withSimpleCard("Results for " + countyValue, results)
+                .withSimpleCard("Results for " + countyValue + " last " + dayValue, results)
                 .build();
     }
 

@@ -8,6 +8,7 @@ import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
 import com.onei.ebirdus.EbirdClient;
+import com.onei.ebirdus.Utils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class LocationIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
+        log.debug("input", input.toString());
         return input.matches(Predicates.intentName("locationIntent"));
     }
 
@@ -37,7 +39,7 @@ public class LocationIntentHandler implements RequestHandler {
         log.debug("Session " + sessionAtt);
         log.debug("County " + county);
         log.debug("Request " + request);
-        String results = EbirdClient.getResults(LocalDate.now().minusDays(7), county);
+        String results = EbirdClient.getResults(LocalDate.now().minusDays(Utils.numberOfDays), county);
 
         return input.getResponseBuilder()
                 .withSpeech(results)

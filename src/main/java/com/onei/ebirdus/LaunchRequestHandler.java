@@ -19,11 +19,11 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String results = EbirdClient.getResults(LocalDate.now().minusDays(7), "Ireland");
+        String results = EbirdClient.getResults(LocalDate.now().minusDays(Utils.numberOfDays), "Ireland");
 
         return input.getResponseBuilder()
                 .withSpeech(results)
-                .withSimpleCard("Results for last week in Ireland ", results)
+                .withSimpleCard("Results for last 2 days in Ireland ", results)
                 .build();
     }
 
