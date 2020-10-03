@@ -37,7 +37,7 @@ public class EbirdClient {
 
             models = objectMapper.readValue(new InputStreamReader(con.getInputStream()), new TypeReference<List<Model>>() {
             });
-            log.debug("Finish request {}", models.size());
+            log.debug("Finish request, number of results {}", models.size());
             con.disconnect();
         } catch (IOException e) {
             log.error("Connection error");
@@ -104,7 +104,6 @@ public class EbirdClient {
         return locationCode;
     }
 
-
     public static String getResults(LocalDate date, String location) {
         log.debug("Get results for {} on {}", location, date);
         StringBuilder stringBuilder = new StringBuilder();
@@ -117,12 +116,8 @@ public class EbirdClient {
         for (Model model : distinct) {
             stringBuilder.append(model.getCommonName() + ", ");
         }
+        log.debug(stringBuilder.toString());
         return stringBuilder.toString();
     }
-
-    public static List<Model> getDefaultRequest() {
-        return doRequest(getRequestURL(LocalDate.now().minusDays(7), true, IRELAND_CODE));
-    }
-
 
 }
