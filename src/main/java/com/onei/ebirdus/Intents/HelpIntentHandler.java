@@ -26,7 +26,6 @@ public class HelpIntentHandler implements RequestHandler {
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("Need Help?", speechText)
-                .withReprompt(speechText)
                 .build();
     }
 }
