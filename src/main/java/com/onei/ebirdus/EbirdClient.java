@@ -13,9 +13,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 public class EbirdClient {
@@ -35,8 +37,9 @@ public class EbirdClient {
             con.setRequestProperty("X-eBirdApiToken", "d4adr470eh9u");
             con.setRequestMethod("GET");
 
-            models = objectMapper.readValue(new InputStreamReader(con.getInputStream()), new TypeReference<List<Model>>() {
-            });
+            models = objectMapper.readValue(new InputStreamReader(con.getInputStream()),
+                    new TypeReference<List<Model>>() {
+                    });
             log.debug("Finish request, number of results {}", models.size());
             con.disconnect();
         } catch (IOException e) {
@@ -110,7 +113,9 @@ public class EbirdClient {
 
         String locationCode = getLocationCode(location);
         List<Model> models = doRequest(getNotableURL(date, locationCode));
-        List<Model> distinct = models.stream().distinct().collect(Collectors.toList());
+        Collection<Model> distinct = models.stream()
+                .collect(Collectors.toMap(Model::getCommonName, p -> p, (p, q) -> p))
+                .values();
         stringBuilder.append("In " + location + " there were " + distinct.size() + " sightings. ");
 
         for (Model model : distinct) {
