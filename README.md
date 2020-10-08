@@ -1,8 +1,7 @@
 ## eBirdus
-Retrieve bird sightings from ebird.org APIs for the island of Ireland
+Retrieve notable bird sightings from ebird.org APIs for the island of Ireland
 
 - Allow users to say a county _Kerry_ and return only the sightings in Kerry.  
-- Allow users to ask for rare bird sightings.  
 - Allow users to say a day _Monday_ sightings and return the sightings for that specific day.  
 - Allow users to say a day _Monday_ and a location _Kerry_ sightings and return only the sightings in Kerry that specific day.  
 
