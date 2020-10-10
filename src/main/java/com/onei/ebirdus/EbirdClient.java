@@ -35,6 +35,8 @@ public class EbirdClient {
             con.setRequestProperty("Content-Type", "application/json");
             con.setRequestProperty("X-eBirdApiToken", "d4adr470eh9u");
             con.setRequestMethod("GET");
+            con.setConnectTimeout(5000);
+            con.setReadTimeout(5000);
 
             models = objectMapper.readValue(new InputStreamReader(con.getInputStream()),
                     new TypeReference<List<Model>>() {
