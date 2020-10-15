@@ -117,7 +117,8 @@ public class EbirdClient {
         Collection<Model> distinct = models.stream()
                 .collect(Collectors.toMap(Model::getCommonName, p -> p, (p, q) -> p))
                 .values();
-        stringBuilder.append("In " + location + " there were " + distinct.size() + " sightings. ");
+
+        stringBuilder.append("In " + location + " there were " + distinct.size() + " sightings since " + date.getDayOfWeek() + ". ");
 
         for (Model model : distinct) {
             stringBuilder.append(model.getCommonName() + ", ");
