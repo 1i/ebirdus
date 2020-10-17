@@ -10,10 +10,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onei.ebirdus.EbirdClient;
 import com.onei.ebirdus.Model;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -25,6 +27,7 @@ import java.util.Properties;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @Slf4j
 public class Tests {
@@ -97,7 +100,13 @@ public class Tests {
         String appConfigPath = rootPath + "counties.properties";
         Properties appProps = new Properties();
         appProps.load(new FileInputStream(appConfigPath));
-        assertEquals("IE-L-WH", appProps.get("west meath"));
+        assertNotEquals("IE-L-WH", appProps.get("west meath"));
+    }
+
+    void spacesInCountyName() {
+        Assertions.assertThrows(IOException.class, () -> {
+            EbirdClient.getResults(YESTERDAY, "MADE UP");
+        });
     }
 
     @Test
@@ -109,31 +118,32 @@ public class Tests {
 
     @Test
     void getRecentBirds() {
-        EbirdClient.getResults(YESTERDAY, IRELAND);
         String recentSighting = EbirdClient.getResults(YESTERDAY, IRELAND);
-        System.out.println(recentSighting);
         assertTrue(recentSighting.contains(IRELAND));
     }
 
     @Test
     void getLastWeeksBirds() {
-        EbirdClient.getResults(YESTERDAY, IRELAND);
         String recentSighting = EbirdClient.getResults(LAST_WEEK, IRELAND);
         assertTrue(recentSighting.contains(IRELAND));
     }
 
     @Test
     void getRecentBirdsInCork() {
-        EbirdClient.getResults(YESTERDAY, IRELAND);
         String recentSighting = EbirdClient.getResults(YESTERDAY, REAL_REPUBLIC);
         assertTrue(recentSighting.contains(REAL_REPUBLIC));
     }
 
     @Test
     void getLastWeeksBirdsInCork() {
-        EbirdClient.getResults(YESTERDAY, IRELAND);
         String recentSighting = EbirdClient.getResults(LAST_WEEK, REAL_REPUBLIC);
         assertTrue(recentSighting.contains(REAL_REPUBLIC));
+    }
+
+    @Test
+    void getLastWeeksBirdsInMadeupLocation() {
+        String recentSighting = EbirdClient.getResults(YESTERDAY, "Nowhere");
+        assertTrue(recentSighting.contains("Sorry"));
     }
 
     @Test
@@ -145,7 +155,6 @@ public class Tests {
 
     @Test
     void invokeLambda() throws Exception {
-
         InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("launchRequest.json");
         ByteBuffer byteBuffer = ByteBuffer.allocate(1000);
         while (resourceAsStream.available() > 0) {
@@ -168,8 +177,8 @@ public class Tests {
         String output = new String(resultPayload.array());
         log.info("output {}", output);
         String[] split = output.split("<speak>");
-//        assertTrue(split[1].contains("In Ireland"));
-        //log.info("Spoken {}", split[1]);
+        assertTrue(split[1].contains("In Ireland"));
+        log.info("Spoken {}", split[1]);
 
     }
 
@@ -190,7 +199,7 @@ public class Tests {
         String output = new String(resultPayload.array());
         log.info("output {}", output);
         String[] split = output.split("<speak>");
-        //assertTrue(split[1].contains("In Ireland"));
+        // assertTrue(split[1].contains("In Ireland"));
         //log.info("Spoken {}", split[1]);
     }
 }

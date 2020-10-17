@@ -100,10 +100,14 @@ public class EbirdClient {
             log.error("Config file load error");
             e.printStackTrace();
         }
+        if (location.contains(" ")) {
+            location = location.replace(" ", "");
+        }
         String locationCode = appProps.getProperty(location.toLowerCase());
 
         if (locationCode == null || locationCode.isEmpty()) {
-            return IRELAND_CODE;
+            log.error("Could not find location for {}", location);
+            return null;
         }
         return locationCode;
     }
@@ -113,6 +117,9 @@ public class EbirdClient {
         StringBuilder stringBuilder = new StringBuilder();
 
         String locationCode = getLocationCode(location);
+        if (locationCode == null) {
+            return "Sorry I could not find a location for " + location;
+        }
         List<Model> models = doRequest(getNotableURL(date, locationCode));
         Collection<Model> distinct = models.stream()
                 .collect(Collectors.toMap(Model::getCommonName, p -> p, (p, q) -> p))
