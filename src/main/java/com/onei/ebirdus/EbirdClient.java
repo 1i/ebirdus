@@ -107,7 +107,7 @@ public class EbirdClient {
 
         if (locationCode == null || locationCode.isEmpty()) {
             log.error("Could not find location for {}", location);
-            return null;
+            throw new IllegalArgumentException("Could not find location for " + location);
         }
         return locationCode;
     }
