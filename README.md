@@ -32,15 +32,15 @@ Postman collection in test resources.
 
 - Check which language is the app targeting UK or US english. Top left of the code section in Alexa console.
 - App can be cloned into same language but different region.
-- Implement the required Intents and the SessionEndHandler which is not documented well as a requirement.  
-- When app returns <Audio message> sound but no logs when calling via simulator or real device, try renaming the invocation name.
+- Implement the required Intents & the SessionEndHandler which is not documented well as a requirement.  
+- When app returns <Audio message> sound but no logs when calling via the simulator or real device, try renaming the invocation name.
 - Innovation name has to be 2 words to be published but can be one word for development.
 - SL4J logging mess. Uber Jar and other versions of L4J on classpath.
 
 
 ### Improvements
 
-- If the requested day is not available fall back to most recent result.. How to along iterating back in days.. 
+- If the requested day is not available fall back to most recent result. How to along iterating back in days. 
 - eBird.org provide a RESTful API
 
 
@@ -53,5 +53,5 @@ Im happy to blur the lines between unit and integration tests as this is a small
 *End to End test* this is where I would like to assert against the Alexa output see alexaResponse.json.  
 The problem with E2E tests :
 - Where are they run from, locally, CI or in AWS.
-- How to authenicate to call the lambda.
-- How to call lamdba directly or do I need APIGateway infront.  
+- How to authenticate to call the lambda. Using local aws token in file loaded via Default strategy.
+- How to call lamdba directly or do I need APIGateway in front. - don't need ApiGateway can call directly.
