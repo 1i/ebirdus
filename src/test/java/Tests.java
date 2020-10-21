@@ -10,12 +10,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onei.ebirdus.EbirdClient;
 import com.onei.ebirdus.Model;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 import java.nio.ByteBuffer;
@@ -84,7 +82,7 @@ public class Tests {
         assertTrue(request.toString().contains("hotspot=true"));
     }
 
-    @Test
+    //@Test
     void propertiesTest() throws Exception {
         String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
         String appConfigPath = rootPath + "counties.properties";
@@ -95,28 +93,15 @@ public class Tests {
             log.info("Request for {} : {}", prop, appProps.get(prop));
             EbirdClient.getResults(YESTERDAY, prop);
             //dont abuse api
-            sleep(3000);
+            sleep(2000);
         }
     }
 
     @Test
-    void spacesInNamepropertiesTest() {
-        URL northernIreland = EbirdClient.getRequestForLocation(YESTERDAY, "Northern Ireland");
-        assertTrue(northernIreland.toString().contains("GB-NIR"));
-    }
-
-    @Test
     void UnknownLocationFailure() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            EbirdClient.getResults(YESTERDAY, "MADE UP");
-        });
-    }
-
-    @Test
-    void getRecentBirdsInKerry() {
-        URL request = EbirdClient.getRequestForLocation(LAST_WEEK, THE_KINGDOM);
-        assertTrue(request.toString().contains("KY"));
-        assertTrue(request.toString().contains("back=7"));
+        String made_up = EbirdClient.getResults(YESTERDAY, "MADE UP");
+        log.debug(made_up);
+        assertTrue(made_up.contains("not find a location"));
     }
 
     @Test
@@ -151,22 +136,16 @@ public class Tests {
         assertTrue(request.toString().contains("/recent/notable"));
     }
 
+
     @Test
     void invokeLambda() throws Exception {
-        InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("launchRequest.json");
-        ByteBuffer byteBuffer = ByteBuffer.allocate(1000);
-        while (resourceAsStream.available() > 0) {
-            byteBuffer.put((byte) resourceAsStream.read());
-        }
-        String inputJSON = "{\"test\":\"value\",\"key\": \"value\"}";
-        URI launchRequest = this.getClass().getClassLoader().getResource("launchRequest.json").toURI();
-        Object spayload = objectMapper.readValue(new File(launchRequest), Object.class);
+        URI launchRequest = this.getClass().getClassLoader().getResource("locationRequest.json").toURI();
+        Object payload = objectMapper.readValue(new File(launchRequest), Object.class);
 
 
-        String ascii = new String(byteBuffer.array(), "UTF-8");
         InvokeRequest invokeRequest = new InvokeRequest()
                 .withFunctionName(functionName)
-                .withPayload(objectMapper.writeValueAsString(spayload));
+                .withPayload(objectMapper.writeValueAsString(payload));
 
 
         InvokeResult result = awsLambdaAsync.invoke(invokeRequest);

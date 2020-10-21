@@ -21,11 +21,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EbirdClient {
 
-    private static ObjectMapper objectMapper = new ObjectMapper();
-    private static String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
-    private static String appConfigPath = rootPath + "counties.properties";
-    private static Properties appProps = new Properties();
-    private static String IRELAND_CODE = "IE";
+    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
+    private final static String appConfigPath = rootPath + "counties.properties";
+    private final static Properties appProps = new Properties();
 
     private static List<Model> doRequest(URL url) {
         log.debug("Start Request");
@@ -88,11 +87,6 @@ public class EbirdClient {
         throw new IOException("URI error");
     }
 
-    public static URL getRequestForLocation(LocalDate last_week, String location) {
-        String locationCode = getLocationCode(location);
-        return getRequestURL(last_week, true, locationCode);
-    }
-
     private static String getLocationCode(String location) {
         try {
             appProps.load(new FileInputStream(appConfigPath));
@@ -107,7 +101,6 @@ public class EbirdClient {
 
         if (locationCode == null || locationCode.isEmpty()) {
             log.error("Could not find location for {}", location);
-            throw new IllegalArgumentException("Could not find location for " + location);
         }
         return locationCode;
     }
@@ -130,7 +123,7 @@ public class EbirdClient {
         stringBuilder.append("In " + location + " there " + singleOrPlural + distinct.size() + " sightings since " + date.getDayOfWeek() + ". ");
 
         for (Model model : distinct) {
-            stringBuilder.append(model.getCommonName() + ", ");
+            stringBuilder.append(model.getCommonName()).append(", ");
         }
         log.debug(stringBuilder.toString());
         return stringBuilder.toString();

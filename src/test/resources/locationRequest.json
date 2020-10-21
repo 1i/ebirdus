@@ -1,0 +1,146 @@
+{
+  "version": "1.0",
+  "session": {
+    "new": true,
+    "sessionId": "amzn1.echo-api.session.5a3d9dcc-3489-4da3-9856-3fb7d630287b",
+    "application": {
+      "applicationId": "amzn1.ask.skill.046f14e3-ac26-464d-8792-d3a7b3c184d6"
+    },
+    "user": {
+      "userId": "amzn1.ask.account.AGBZQYJYX3PLNU72N27Z3OPZ5FVZW4Q47OUOOGMGOWTF24TDESRBW3P3U2TDUIDKNBXTSMGEQ65MVAXUPUPPWLLPVPBOMT6ZPN3QEJII3IMOGA67LSGMDX46IB6I5IIWRVV3KFTTX7C6NRTOZ6GJ4KKZWMTOF75PLH4EZ67MSOG732O7D54WJSUXMFBOJDCD5UFMJEREGY2EABA"
+    }
+  },
+  "context": {
+    "Viewports": [
+      {
+        "type": "APL",
+        "id": "main",
+        "shape": "RECTANGLE",
+        "dpi": 213,
+        "presentationType": "STANDARD",
+        "canRotate": false,
+        "configuration": {
+          "current": {
+            "video": {
+              "codecs": [
+                "H_264_42",
+                "H_264_41"
+              ]
+            },
+            "size": {
+              "type": "DISCRETE",
+              "pixelWidth": 1280,
+              "pixelHeight": 800
+            }
+          }
+        }
+      }
+    ],
+    "Viewport": {
+      "experiences": [
+        {
+          "arcMinuteWidth": 346,
+          "arcMinuteHeight": 216,
+          "canRotate": false,
+          "canResize": false
+        }
+      ],
+      "shape": "RECTANGLE",
+      "pixelWidth": 1280,
+      "pixelHeight": 800,
+      "dpi": 213,
+      "currentPixelWidth": 1280,
+      "currentPixelHeight": 800,
+      "touch": [
+        "SINGLE"
+      ],
+      "video": {
+        "codecs": [
+          "H_264_42",
+          "H_264_41"
+        ]
+      }
+    },
+    "Extensions": {
+      "available": {
+        "aplext:backstack:10": {}
+      }
+    },
+    "System": {
+      "application": {
+        "applicationId": "amzn1.ask.skill.046f14e3-ac26-464d-8792-d3a7b3c184d6"
+      },
+      "user": {
+        "userId": "amzn1.ask.account.AGBZQYJYX3PLNU72N27Z3OPZ5FVZW4Q47OUOOGMGOWTF24TDESRBW3P3U2TDUIDKNBXTSMGEQ65MVAXUPUPPWLLPVPBOMT6ZPN3QEJII3IMOGA67LSGMDX46IB6I5IIWRVV3KFTTX7C6NRTOZ6GJ4KKZWMTOF75PLH4EZ67MSOG732O7D54WJSUXMFBOJDCD5UFMJEREGY2EABA"
+      },
+      "device": {
+        "deviceId": "amzn1.ask.device.AHZCZ74IWH6DEUOX2PJ4W4VYNQH7SD5KWXU3SC7FECLVPRI7RJ72CKYVF3MQLBBIALA2BORGDRN2NDILUHZK2TE6AT6GILRRXOE2EVR6Z3A74EVMDMYTTBGJTCX5IAQW3IBDLFLNDYPHZIK7L7DDZDLRUP3CDHCZYH7C636SLL5CXOILQ32D6",
+        "supportedInterfaces": {}
+      },
+      "apiEndpoint": "https://api.amazonalexa.com",
+      "apiAccessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjEifQ.eyJhdWQiOiJodHRwczovL2FwaS5hbWF6b25hbGV4YS5jb20iLCJpc3MiOiJBbGV4YVNraWxsS2l0Iiwic3ViIjoiYW16bjEuYXNrLnNraWxsLjA0NmYxNGUzLWFjMjYtNDY0ZC04NzkyLWQzYTdiM2MxODRkNiIsImV4cCI6MTYwMzMxMDQxNSwiaWF0IjoxNjAzMzEwMTE1LCJuYmYiOjE2MDMzMTAxMTUsInByaXZhdGVDbGFpbXMiOnsiY29udGV4dCI6IkFBQUFBQUFBQUFCdUo0UHR1VCtmV3ZsNFNjdFJHNGw0S3dFQUFBQUFBQUFNL3FKWDl5TEltRm1CNmhnMnF1TnhDR2c1d29qakpTd3dJYUF3aU9WamlwczJ0Z3QwVlUwb0NBbVNJRnlKbkpIZFNzSXMvL1FaeDZlUTBjSndCQXRZWmhUbnJJb25sWkVCQkRvSEtqTUZaS0UwNnYvZ2R3UzhBT1NMYTR1VHpxSGlrVk1wcC9Qem9wakRTdURGMWRmY0o1SnJOQW9vMEhQR2lPK0piZTNsaFBld3pSZ2xwcE5RYk5HdXB6TmdwSzlxNE5nV2gwY2tZbDFHYmx3bHhXNXdjR042MlNrNTAvSkV6bGpNUklPM1VoUHc5VHV0K1pUaG1xSEVEUklUdFpmdlFNVzRYNXNKejJMb1hSTmhIc1BWQXBjRnJPTEJPMWJtcWNTNTJYWWIvRGJJVFRXcWdEMENmaGJ3VWZxZXVWL3JVR0lzWGR3WkdRRXQ2VS8xRE5FanoxbXMxOERTWTVFZEZQYzRNdzFsUS9nMkE5ZXpscUoyZ3EyNDhrK3BVUmo3VDBidU1SYmlNYnM1dkE9PSIsImNvbnNlbnRUb2tlbiI6bnVsbCwiZGV2aWNlSWQiOiJhbXpuMS5hc2suZGV2aWNlLkFIWkNaNzRJV0g2REVVT1gyUEo0VzRWWU5RSDdTRDVLV1hVM1NDN0ZFQ0xWUFJJN1JKNzJDS1lWRjNNUUxCQklBTEEyQk9SR0RSTjJORElMVUhaSzJURTZBVDZHSUxSUlhPRTJFVlI2WjNBNzRFVk1ETVlUVEJHSlRDWDVJQVFXM0lCRExGTE5EWVBIWklLN0w3RERaRExSVVAzQ0RIQ1pZSDdDNjM2U0xMNUNYT0lMUTMyRDYiLCJ1c2VySWQiOiJhbXpuMS5hc2suYWNjb3VudC5BR0JaUVlKWVgzUExOVTcyTjI3WjNPUFo1RlZaVzRRNDdPVU9PR01HT1dURjI0VERFU1JCVzNQM1UyVERVSURLTkJYVFNNR0VRNjVNVkFYVVBVUFBXTExQVlBCT01UNlpQTjNRRUpJSTNJTU9HQTY3TFNHTURYNDZJQjZJNUlJV1JWVjNLRlRUWDdDNk5SVE9aNkdKNEtLWldNVE9GNzVQTEg0RVo2N01TT0c3MzJPN0Q1NFdKU1VYTUZCT0pEQ0Q1VUZNSkVSRUdZMkVBQkEifX0.PafEtV2ChsJRF5llX3gDdoaRBdzEWAeOOD4VHCy2DGIrn9TbATebdJWTQgzkhh6azb-PrzDQoeV5-pidMKZ9desTq43VY0INgu3BPbWKWevfajboNv3jSYygqv9yL3OUZtpaVzRdjStpk_RhK6KaU7ghGJ5LL7NrkJhJZcK6QimhwSSpKF0263Olc1XXmcqzPqTJzqGikMDezFStx9BC0FAFjf2MoDAApdR8d084BA_6Gcft71jYXNWIPkofA6_1DWzE0-IHlGPJakYm6FdW73maMJkYVOV3LU5TWtsKU9W9e4UxYSuH4O3KenMHIKE5k-lNjinUSY7uKmhXpJGWNQ"
+    }
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.29cb7940-a389-4cc0-b5f5-66e5ae8a4d79",
+    "locale": "en-GB",
+    "timestamp": "2020-10-21T19:55:15Z",
+    "intent": {
+      "name": "locationIntent",
+      "confirmationStatus": "NONE",
+      "slots": {
+        "county": {
+          "name": "county",
+          "value": "Kerry",
+          "resolutions": {
+            "resolutionsPerAuthority": [
+              {
+                "authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.046f14e3-ac26-464d-8792-d3a7b3c184d6.counties",
+                "status": {
+                  "code": "ER_SUCCESS_MATCH"
+                },
+                "values": [
+                  {
+                    "value": {
+                      "name": "Kerry",
+                      "id": "a214c0e659e36eb1194137976cab3619"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "confirmationStatus": "NONE",
+          "source": "USER",
+          "slotValue": {
+            "type": "Simple",
+            "value": "Kerry",
+            "resolutions": {
+              "resolutionsPerAuthority": [
+                {
+                  "authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.046f14e3-ac26-464d-8792-d3a7b3c184d6.counties",
+                  "status": {
+                    "code": "ER_SUCCESS_MATCH"
+                  },
+                  "values": [
+                    {
+                      "value": {
+                        "name": "Kerry",
+                        "id": "a214c0e659e36eb1194137976cab3619"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "__Conjunction": {
+          "name": "__Conjunction",
+          "confirmationStatus": "NONE"
+        }
+      }
+    }
+  }
+}
