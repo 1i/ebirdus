@@ -14,6 +14,7 @@ public class HelpIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
+        log.debug("HelpIntent {}", input.getRequestEnvelopeJson().toString());
         return input.matches(intentName("AMAZON.HelpIntent"));
     }
 

@@ -20,7 +20,7 @@ public class LocationIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        log.debug("input", input.toString());
+        log.debug("LocationIntent {}", input.getRequestEnvelopeJson().toString());
         return input.matches(Predicates.intentName("locationIntent"));
     }
 

@@ -17,7 +17,7 @@ public class FallbackIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        log.debug("input", input.toString());
+        log.debug("FallbackIntent {}", input.getRequestEnvelopeJson().toString());
         return input.matches(intentName("AMAZON.FallbackIntent"));
     }
 
