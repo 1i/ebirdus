@@ -1,3 +1,5 @@
+import com.amazon.ask.model.ListSlotValue;
+import com.amazon.ask.model.SimpleSlotValue;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.AWSLambdaAsync;
@@ -53,6 +55,11 @@ public class Tests {
     }
 
     @Test
+    void concurrentRequests() throws Exception {
+        EbirdClient.doConcurrentRequests();
+    }
+
+    @Test
     void transformerTest() throws Exception {
 
         List<Model> models = objectMapper.readValue(EBIRD_FILE, new TypeReference<List<Model>>() {
@@ -100,7 +107,7 @@ public class Tests {
     @Test
     void UnknownLocationFailure() {
         String made_up = EbirdClient.getResults(YESTERDAY, "MADE UP");
-        log.debug(made_up);
+        log.debug(made_up, awsLambdaAsync.toString());
         assertTrue(made_up.contains("not find a location"));
     }
 
@@ -142,7 +149,10 @@ public class Tests {
         URI launchRequest = this.getClass().getClassLoader().getResource("locationRequest.json").toURI();
         Object payload = objectMapper.readValue(new File(launchRequest), Object.class);
 
-
+        ListSlotValue.builder()
+                .addValuesItem(SimpleSlotValue.builder().withValue("county").build())
+                .addValuesItem(SimpleSlotValue.builder().withValue("Kerry").build())
+                .build();
         InvokeRequest invokeRequest = new InvokeRequest()
                 .withFunctionName(functionName)
                 .withPayload(objectMapper.writeValueAsString(payload));
@@ -179,4 +189,6 @@ public class Tests {
         // assertTrue(split[1].contains("In Ireland"));
         //log.info("Spoken {}", split[1]);
     }
+
+
 }

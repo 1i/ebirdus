@@ -16,6 +16,10 @@ import java.time.Period;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -25,7 +29,21 @@ public class EbirdClient {
     private final static String rootPath = EbirdClient.class.getClassLoader().getResource("").getPath();
     private final static String appConfigPath = rootPath + "counties.properties";
     private final static Properties appProps = new Properties();
+    private final static ExecutorService executorService = Executors.newFixedThreadPool(2);
 
+    public static List<Model> doConcurrentRequests() throws ExecutionException, InterruptedException {
+
+        Future<String> ireland = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "ireland"));
+        Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "england"));
+
+        while (!england.isDone() && !ireland.isDone()) {
+            System.out.println("wait " + england.isDone() + ireland.isDone());
+            Thread.sleep(10);
+        }
+        System.out.println(england.get());
+        System.out.println(ireland.get());
+        return null;
+    }
     private static List<Model> doRequest(URL url) {
         log.debug("Start Request");
         List<Model> models = null;
