@@ -56,7 +56,8 @@ public class Tests {
 
     @Test
     void concurrentRequests() throws Exception {
-        EbirdClient.doConcurrentRequests();
+        String doConcurrentRequests = EbirdClient.doConcurrentRequests();
+        assertTrue(doConcurrentRequests.contains("ireland") && doConcurrentRequests.contains("england"));
     }
 
     @Test

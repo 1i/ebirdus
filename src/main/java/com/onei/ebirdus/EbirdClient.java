@@ -35,7 +35,7 @@ public class EbirdClient {
 
         Future<String> ireland = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "ireland"));
         Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "england"));
-
+        log.debug("awaiting results");
         return ireland.get() + england.get();
     }
 
@@ -134,19 +134,23 @@ public class EbirdClient {
         if (locationCode == null) {
             return "Sorry I could not find a location for " + location;
         }
-        List<Model> models = doRequest(getNotableURL(date, locationCode));
+        final List<Model> models = doRequest(getNotableURL(date, locationCode));
         Collection<Model> distinct = models.stream()
                 .collect(Collectors.toMap(Model::getCommonName, p -> p, (p, q) -> p))
                 .values();
 
         String singleOrPlural = distinct.size() > 1 ? "were " : "was ";
 
-        stringBuilder.append("In " + location + " there " + singleOrPlural + distinct.size() + " sightings since " + date.getDayOfWeek() + ". ");
+        stringBuilder.append("In ").append(location).append(" there ")
+                .append(singleOrPlural).append(distinct.size()).append(" sightings since ")
+                .append(date.getDayOfWeek()).append(". ");
 
         if (allResults || distinct.size() < 20) {
             for (Model model : distinct) {
                 stringBuilder.append(model.getCommonName()).append(", ");
             }
+        } else {
+            stringBuilder.append("Ask again for ").append(location).append(", to hear all it's results listed.");
         }
         log.debug(stringBuilder.toString());
         return stringBuilder.toString();
