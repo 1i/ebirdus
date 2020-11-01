@@ -20,7 +20,7 @@ public class LocationDateIntentHandler implements RequestHandler {
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        log.debug("input", input.toString());
+        log.debug("input {}", input.toString());
         return input.matches(Predicates.intentName("LocationDateIntent"));
     }
 
@@ -43,7 +43,7 @@ public class LocationDateIntentHandler implements RequestHandler {
         log.debug("Day " + day);
         log.debug("Request " + request);
 
-        String results = EbirdClient.getResults(Utils.getDateFromDay(dayValue), countyValue);
+        String results = EbirdClient.getAllResults(Utils.getDateFromDay(dayValue), countyValue);
 
         return input.getResponseBuilder()
                 .withSpeech(results)

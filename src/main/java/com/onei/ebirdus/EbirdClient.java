@@ -34,11 +34,8 @@ public class EbirdClient {
     public static String doConcurrentRequests() throws ExecutionException, InterruptedException {
 
         Future<String> ireland = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "ireland"));
-        Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(1), "england"));
+        Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "england"));
 
-        while (!england.isDone() && !ireland.isDone()) {
-            Thread.sleep(10);
-        }
         return ireland.get() + england.get();
     }
 
@@ -121,7 +118,15 @@ public class EbirdClient {
         return locationCode;
     }
 
+    public static String getAllResults(LocalDate date, String location) {
+        return getResults(date, location, true);
+    }
+
     public static String getResults(LocalDate date, String location) {
+        return getResults(date, location, false);
+    }
+
+    private static String getResults(LocalDate date, String location, Boolean allResults) {
         log.debug("Get results for {} on {}", location, date);
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -138,7 +143,7 @@ public class EbirdClient {
 
         stringBuilder.append("In " + location + " there " + singleOrPlural + distinct.size() + " sightings since " + date.getDayOfWeek() + ". ");
 
-        if (distinct.size() < 20) {
+        if (allResults || distinct.size() < 20) {
             for (Model model : distinct) {
                 stringBuilder.append(model.getCommonName()).append(", ");
             }

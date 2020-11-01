@@ -39,7 +39,7 @@ public class LocationIntentHandler implements RequestHandler {
         log.debug("Session " + sessionAtt);
         log.debug("County " + county);
         log.debug("Request " + request);
-        String results = EbirdClient.getResults(LocalDate.now().minusDays(Utils.numberOfDays), county);
+        String results = EbirdClient.getAllResults(LocalDate.now().minusDays(Utils.numberOfDays), county);
 
         return input.getResponseBuilder()
                 .withSpeech(results)
