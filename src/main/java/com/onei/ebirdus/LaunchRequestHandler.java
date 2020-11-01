@@ -6,8 +6,8 @@ import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.LaunchRequest;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.request.Predicates;
+import lombok.SneakyThrows;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 public class LaunchRequestHandler implements RequestHandler {
@@ -17,13 +17,14 @@ public class LaunchRequestHandler implements RequestHandler {
         return input.matches(Predicates.requestType(LaunchRequest.class));
     }
 
+    @SneakyThrows
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String results = EbirdClient.getResults(LocalDate.now().minusDays(Utils.numberOfDays), "Ireland");
+        String result = EbirdClient.doConcurrentRequests();
 
         return input.getResponseBuilder()
-                .withSpeech(results)
-                .withSimpleCard("Results for last 2 days in Ireland ", results)
+                .withSpeech(result)
+                .withSimpleCard("Results for in Ireland & England ", result)
                 .build();
     }
 

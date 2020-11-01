@@ -31,19 +31,17 @@ public class EbirdClient {
     private final static Properties appProps = new Properties();
     private final static ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    public static List<Model> doConcurrentRequests() throws ExecutionException, InterruptedException {
+    public static String doConcurrentRequests() throws ExecutionException, InterruptedException {
 
         Future<String> ireland = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "ireland"));
-        Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(Utils.numberOfDays), "england"));
+        Future<String> england = executorService.submit(() -> getResults(LocalDate.now().minusDays(1), "england"));
 
         while (!england.isDone() && !ireland.isDone()) {
-            System.out.println("wait " + england.isDone() + ireland.isDone());
             Thread.sleep(10);
         }
-        System.out.println(england.get());
-        System.out.println(ireland.get());
-        return null;
+        return ireland.get() + england.get();
     }
+
     private static List<Model> doRequest(URL url) {
         log.debug("Start Request");
         List<Model> models = null;
@@ -140,8 +138,10 @@ public class EbirdClient {
 
         stringBuilder.append("In " + location + " there " + singleOrPlural + distinct.size() + " sightings since " + date.getDayOfWeek() + ". ");
 
-        for (Model model : distinct) {
-            stringBuilder.append(model.getCommonName()).append(", ");
+        if (distinct.size() < 20) {
+            for (Model model : distinct) {
+                stringBuilder.append(model.getCommonName()).append(", ");
+            }
         }
         log.debug(stringBuilder.toString());
         return stringBuilder.toString();
