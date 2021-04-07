@@ -27,7 +27,7 @@ The LogResult is returned in Base64 so will need to be decoded.
 
 ## Ebird.org API
 
-Excellent bird learning resource provided by Cornell University USA  
+Excellent bird learning resource provided by Cornell University USA.  
 
 Notable birds
 ```
@@ -37,7 +37,7 @@ curl "https://api.ebird.org/v2/data/obs/IE/recent/notable?back=1" -H "X-eBirdApi
 Postman collection in test resources.
 
 
-### Learnings
+### Lessons Learnt
 
 - Adding a more specific request phrase, "open birdie sightings for {Dublin}" does not trigger the correct intent, so I added "for county {Dublin}" or "for {Dublin} city"
 - Check which language is the app targeting UK or US english. Top left of the code section in Alexa console.
@@ -50,7 +50,7 @@ Postman collection in test resources.
 
 ### Improvements
 
-- If the requested day is not available fall back to most recent result. How to along iterating back in days. 
+- If the requested day is not available fall back to most recent result. How to along iterating back in days? 
 - eBird.org provide a RESTful API
 
 
